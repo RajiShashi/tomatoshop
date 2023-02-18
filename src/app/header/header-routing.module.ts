@@ -4,7 +4,7 @@ import { SalesentryComponent } from '../salesentry/salesentry/salesentry.compone
 
 
 const routes: Routes = [
-   { path: 'sales', component: SalesentryComponent }
+   { path: 'sales1', component: SalesentryComponent }
 ];
 
 @NgModule({

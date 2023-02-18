@@ -1,0 +1,53 @@
+<p>report works!</p>
+
+<div class="mt-2">
+
+  <form #f="ngForm">
+
+    <div class="row">
+      <div class="col">
+        <label for="selectType">Type</label>
+        <select #stype (change)="onChange(stype.value)" [(ngModel)]="selectType" name="selectType">
+          <option [value]="null" [disabled]="true" [selected]> Select an option </option>
+          <option *ngFor="let user of selectTypes" value="{{user.type}}">{{user.type}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label for="fromDate">FromDate</label>
+        <input type="date" [ngModel]="fromDate" name="fromDate">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label for="toDate">toDate</label>
+        <input type="date" [ngModel]="toDate" name="toDate" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn btn-primary" (click)="getReportDetails(f)">Show</button>
+        <button class="btn btn-danger">Return</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-info">Print</button>
+        <button class="btn btn-success">Excel</button>
+      </div>
+    </div>
+
+    <!-- <button  type="submit" class="btn btn-primary" (click)="saveCustomer(f,btnSubmit)">{{btnSubmit}}</button> -->
+    <!-- <button  type="submit" class="btn btn-primary" (click)="updateCustomer(f)">updateCustomer</button> -->
+    <!-- <button *ngIf="id==0" type="submit" class="btn btn-primary" (click)="saveCustomer(f)"
+        [disabled]="!f.valid">Submit</button>
+      <button *ngIf="id>0" type="submit" class="btn btn-primary" (click)="updateCustomer(f)"
+        [disabled]="!f.valid">updateCustomer</button> -->
+  </form>
+
+</div>

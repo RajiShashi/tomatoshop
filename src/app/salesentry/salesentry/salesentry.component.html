@@ -1,19 +1,47 @@
 <br>
 <br>
 <div class="container">
-    <form [formGroup]="salesForm">
-        <div class="row" formGroupName="inword">
-            <div class="col-2">
+    <form [formGroup]="salesForm" (ngSubmit)="onClickSubmit()">
+        <div class="row">
+            <div class="col">
                 <label for="billno">Billno</label>
                 <input type="number" formControlName="billno" placeholder="BillNo">
             </div>
-            <div class="col-2">
+            <div class="col">
                 <label for="date">Date</label>
                 <input type="datetime-local" formControlName="date">
             </div>
-            <div class="col-2">
-                <label for="farmerName">FarmerName</label>
-                <input type="text" formControlName="farmerName" placeholder="FarmerName">
+            <div class="col">
+                <label for="customerid">CustomerName</label>
+                <select placeholder="Farmer" #customerName>
+                    <option>--FarmerName--</option>
+                    <option *ngFor="let farmer of farmerType">
+                        {{farmer.customername }}
+                    </option>
+                </select>
+                <!-- <label for="farmerName">FarmerName</label>
+                <input type="text" formControlName="farmerName" placeholder="FarmerName"> -->
+            </div>
+        </div>
+        <div class="row" formGroupName="inword">
+            <!-- <div class="col">
+                <label for="billno">Billno</label>
+                <input type="number" formControlName="billno" placeholder="BillNo">
+            </div> -->
+            <!-- <div class="col">
+                <label for="date">Date</label>
+                <input type="datetime-local" formControlName="date">
+            </div> -->
+            <div class="col">
+                <!-- <label for="customerid">CustomerName</label>
+                <select placeholder="Farmer" #customerName>
+                    <option>--FarmerName--</option>
+                    <option *ngFor="let farmer of farmerType">
+                        {{farmer.customername }}
+                    </option>
+                </select> -->
+                <!-- <label for="farmerName">FarmerName</label>
+                <input type="text" formControlName="farmerName" placeholder="FarmerName"> -->
             </div>
         </div>
         <br>
@@ -22,10 +50,10 @@
                 <input type="text" #product formControlName="product" placeholder="Product" (blur)="onBlurInProduct()">
             </div>
             <div class="col">
-                <input type="number" #kgs formControlName="kgs" placeholder="Kgs" (blur)="onBlurInKgs()">
+                <input type="number" #kgs formControlName="kgs" placeholder="Kgs" (blur)="onBlurInKgs()" disabled>
             </div>
             <div class="col">
-                <input type="number" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()">
+                <input type="string" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()">
                 <a class='nav-link' (click)="openModal()">
                     <i class="fa fa-plus"></i>
                 </a>
@@ -42,32 +70,41 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button [disabled]="inVegitable.invalid" (click)="addInProductsArray()" class="btn btn-primary">Add
+                    <button [disabled]="!inVegitable.valid" (click)="addInProductsArray()" class="btn btn-primary">Add
                         Products</button>
+                    <!-- <button [disabled]="inVegitable.invalid" (click)="addInProductsArray()" class="btn btn-primary">Add
+                            Products</button> -->
                 </div>
             </div>
         </div>
+        <br>
+        <br>
         <div class="row">
             <div class="col">
                 <ng-container *ngFor="let proud of inProductsArr.controls; let i = index">
                     <div class="row" [formGroup]="proud">
                         <div class="col">
-                            <input type="text" formControlName="product" placeholder="Product">
+                            <label for="product">Pro</label>
+                            <input type="text" formControlName="product" placeholder="Product" disabled>
                             <!-- <div class="text-danger" *ngif="inProductsArr.controls[i].get('product').errors?.required">
                                 Product Name is required
                             </div> -->
                         </div>
                         <div class="col">
-                            <input type="number" formControlName="kgs" placeholder="Kgs">
+                            <label for="kgs">Kgs</label>
+                            <input type="number" formControlName="kgs" placeholder="Kgs" disabled>
                         </div>
                         <div class="col">
-                            <input type="number" formControlName="pack" placeholder="Pack">
+                            <label for="pack">Pack</label>
+                            <input type="string" formControlName="pack" placeholder="Pack" disabled>
                         </div>
                         <div class="col">
-                            <input type="number" formControlName="rate" placeholder="Rate">
+                            <label for="rate">Rate</label>
+                            <input type="number" formControlName="rate" placeholder="Rate" disabled>
                         </div>
                         <div class="col">
-                            <input type="number" formControlName="amount" placeholder="Amount">
+                            <label for="amount">Amt</label>
+                            <input type="number" formControlName="amount" placeholder="Amount" disabled>
                         </div>
                         <div class="col">
                             <button (click)="removeInProducts(i)" class="btn btn-danger"> Remove</button>
@@ -80,24 +117,62 @@
         <br>
         <div class="row">
             <div class="col-2">
-                <label for="commision">Commision</label>
-                <input type="number" formControlName="commision" placeholder="Commision">
+                <label for="commision">Commision:</label>
+                <input type="number" formControlName="commision">
             </div>
             <div class="col-2">
-                <label for="toll">Toll</label>
+                <label for="toll">Toll:</label>
                 <input type="number" formControlName="toll">
             </div>
             <div class="col-2">
-                <label for="wages">Wages</label>
+                <label for="wages">Wages:</label>
                 <input type="number" formControlName="wages">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <label for="rent">Rent:</label>
+                <input type="number" formControlName="rent">
+            </div>
+            <div class="col-2">
+                <label for="debit">Debit:</label>
+                <input type="number" formControlName="debit">
+            </div>
+            <div class="col-2">
+                <label for="credit">Credit:</label>
+                <input type="number" formControlName="credit">
             </div>
         </div>
         <br>
         <br>
-        <div class="row" formGroupName="outVegitable">
+        <div class="row">
             <div class="col">
-                <input type="text" #businessMan placeholder="BusinessMan">
+                <!-- <select #business (change)="selectBusinessman(business.value)">
+                    <option *ngFor="let b of businessMan" [value]="b.id">
+                        {{b.customername}}
+                    </option>
+                </select> -->
+                <select #businessMan (change)="selectBusinessman(businessMan.value)">
+                    <option>--BusinessMan--</option>
+                    <option *ngFor="let business of businessManType" [value]="business.id">
+                        {{business.customername }}
+                    </option>
+                </select>
+                <!-- <input type="text" #businessMan placeholder="BusinessMan"> -->
             </div>
+        </div>
+        <br>
+        <br>
+        <div class="col">
+            <!-- <select placeholder="BusinessMan" #businessMan>
+                <option>--BusinessMan--</option>
+                <option *ngFor="let business of businessManType">
+                    {{business.customername }}
+                </option>
+            </select> -->
+            <!-- <input type="text" #businessMan placeholder="BusinessMan"> -->
+        </div>
+        <div class="row" formGroupName="outVegitable">
             <div class="col">
                 <select placeholder="Products" #outProduct>
                     <option>--Products--</option>
@@ -110,7 +185,7 @@
                 <input type="number" #outKgs placeholder="Kgs" (blur)="onBlurOutKgs()">
             </div>
             <div class="col">
-                <input type="number" #outPack placeholder="Pack" (blur)="onBlurOutPack()">
+                <input type="string" #outPack placeholder="Pack" (blur)="onBlurOutPack()">
             </div>
             <div class="col">
                 <input type="number" #outRate placeholder="Rate" (blur)="onBlurOutRate()">
@@ -118,26 +193,35 @@
             <div class="col">
                 <input type="number" #outAmount placeholder="Amount" disabled>
             </div>
+            <div class="row">
+                <div class="col">
+                    <button [disabled]="!outVegitable.valid" (click)="addOutProductsArray()" class="btn btn-primary">Add
+                        Out Products</button>
+                </div>
+            </div>
         </div>
+        <br>
         <ng-container *ngFor="let proud of outProductsArr.controls; let i = index">
             <div class="row" [formGroup]="proud">
                 <div class="col">
-                    <input type="text" formControlName="businessMan" placeholder="BusinessMan">
+                   
+                    <input type="text" formControlName="businessMan" disabled>
                 </div>
                 <div class="col">
-                    <input type="text" formControlName="outProduct" placeholder="Product">
+                    <input type="text" formControlName="outProduct" disabled>
                 </div>
                 <div class="col">
-                    <input type="number" formControlName="outKgs" placeholder="Kgs">
+                    <label for="">Kgs</label>
+                    <input type="number" formControlName="outKgs" disabled>
                 </div>
                 <div class="col">
-                    <input type="number" formControlName="outPack" placeholder="Pack">
+                    <input type="string" formControlName="outPack" disabled>
                 </div>
                 <div class="col">
-                    <input type="number" formControlName="outRate" placeholder="Rate">
+                    <input type="number" formControlName="outRate" disabled>
                 </div>
                 <div class="col">
-                    <input type="number" formControlName="outAmount" placeholder="Amount">
+                    <input type="number" formControlName="outAmount" disabled>
                 </div>
                 <div class="col">
                     <button (click)="removeOutProducts(i)" class="btn btn-danger"> Remove</button>
@@ -145,12 +229,11 @@
             </div>
         </ng-container>
         <br>
-        <button (click)="addOutProductsArray()" class="btn btn-primary">Add Out Products</button>
+
         <br>
         <br>
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
-
 </div>
 
 <div class="container">

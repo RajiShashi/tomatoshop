@@ -11,7 +11,7 @@ export class CustomersService {
 
   constructor(private _httpClient: HttpClient) { }
 
-  getAllCustomer(): Observable<any>{
+  getAllCustomer(): Observable<any> {
     return this._httpClient.get<any>(this._url);
   }
 }

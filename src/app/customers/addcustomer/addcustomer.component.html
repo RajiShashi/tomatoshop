@@ -1,37 +1,45 @@
-<p>addcustomer works!</p>
+<div class="mt-2">
+  <form #f="ngForm">
 
-  <div class="row">
-    <div class="col-md-12">
-        <form [formGroup]="addform">
-        <div class="mb-3">
-            <label for="farmername" class="form-label">FarmerName</label>
-            <input type="text" formControlName="farmername" class="form-control" id="farmername">
-          </div>
-          <div class="mb-3">
-            <label for="address" class="form-label">Address</label>
-            <input type="text" formControlName="address" class="form-control" id="address">
-          </div>
-          <div class="mb-3">
-            <label for="phonenumber" class="form-label">PhoneNumber</label>
-            <input type="number" formControlName="phonenumber" class="form-control" id="phonenumber">
-          </div>
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown button
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </div>
-        </form>
+    <div class="mb-3">
+      <label for="customername">CustomeName</label>
+      <input type="text" [ngModel]="customername" name="customername" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="address">Address</label>
+      <input type="text" [ngModel]="address" name="address" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="outletarea">OutletArea</label>
+      <input type="text" [ngModel]="outletarea" name="outletarea" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="phonenumber">PhoneNumber</label>
+      <input type="number" [ngModel]="phonenumber" name="phonenumber" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="tinnumber">TinNumber</label>
+      <input type="number" [ngModel]="tinnumber" name="tinnumber" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="customertype">CustomerType</label>
+      <select #ctype (change)="onChange(ctype.value)" [(ngModel)]="customertype" name="customertype">
+        <option [value]="null" [disabled]="true" [selected]> Select an option </option>
+        <option *ngFor="let user of selectCustomer" value="{{user.type}}">{{user.type}}</option>
+      </select>
     </div>
     
+    <!-- <button  type="submit" class="btn btn-primary" (click)="saveCustomer(f,btnSubmit)">{{btnSubmit}}</button> -->
+    <!-- <button  type="submit" class="btn btn-primary" (click)="updateCustomer(f)">updateCustomer</button> -->
+    <button *ngIf="id==0" type="submit" class="btn btn-primary" (click)="saveCustomer(f)"
+      [disabled]="!f.valid">Submit</button>
+    <button *ngIf="id>0" type="submit" class="btn btn-primary" (click)="updateCustomer(f)"
+      [disabled]="!f.valid">updateCustomer</button>
+  </form>
 </div>
 
-
-
-
-{{addform.value | json}}
-{{addform.valid}}
