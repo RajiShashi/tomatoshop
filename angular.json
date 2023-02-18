@@ -23,9 +23,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "src/assets/vendor/sb-admin/sb-admin-2.min.css",
+              "src/assets/vendor/fontawesome-free/css/all.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/vendor/jquery/jquery.min.js",
+              "src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/assets/vendor/jquery-easing/jquery.easing.min.js",
+              "src/assets/vendor/sb-admin/sb-admin-2.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -97,5 +105,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "8848906c-7006-4bb0-bccf-5746f1980b26"
   }
 }

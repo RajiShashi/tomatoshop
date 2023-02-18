@@ -1,0 +1,206 @@
+<br>
+<br>
+<div class="container">
+    <form [formGroup]="salesForm">
+        <div class="row" formGroupName="inword">
+            <div class="col-2">
+                <label for="billno">Billno</label>
+                <input type="number" formControlName="billno" placeholder="BillNo">
+            </div>
+            <div class="col-2">
+                <label for="date">Date</label>
+                <input type="datetime-local" formControlName="date">
+            </div>
+            <div class="col-2">
+                <label for="farmerName">FarmerName</label>
+                <input type="text" formControlName="farmerName" placeholder="FarmerName">
+            </div>
+        </div>
+        <br>
+        <div class="row" formGroupName="inVegitable">
+            <div class="col">
+                <input type="text" #product formControlName="product" placeholder="Product" (blur)="onBlurInProduct()">
+            </div>
+            <div class="col">
+                <input type="number" #kgs formControlName="kgs" placeholder="Kgs" (blur)="onBlurInKgs()">
+            </div>
+            <div class="col">
+                <input type="number" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()">
+                <a class='nav-link' (click)="openModal()">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+            <!-- <div class="col">
+                <input type="number" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()">
+                <button type="button" class="btn btn-primary" (click)="openModal()">Open Dialog</button>
+            </div> -->
+            <div class="col">
+                <input type="number" #rate placeholder="Rate" (blur)="onBlurInRate()">
+            </div>
+            <div class="col">
+                <input type="number" #amount placeholder="Amount" disabled>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button [disabled]="inVegitable.invalid" (click)="addInProductsArray()" class="btn btn-primary">Add
+                        Products</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ng-container *ngFor="let proud of inProductsArr.controls; let i = index">
+                    <div class="row" [formGroup]="proud">
+                        <div class="col">
+                            <input type="text" formControlName="product" placeholder="Product">
+                            <!-- <div class="text-danger" *ngif="inProductsArr.controls[i].get('product').errors?.required">
+                                Product Name is required
+                            </div> -->
+                        </div>
+                        <div class="col">
+                            <input type="number" formControlName="kgs" placeholder="Kgs">
+                        </div>
+                        <div class="col">
+                            <input type="number" formControlName="pack" placeholder="Pack">
+                        </div>
+                        <div class="col">
+                            <input type="number" formControlName="rate" placeholder="Rate">
+                        </div>
+                        <div class="col">
+                            <input type="number" formControlName="amount" placeholder="Amount">
+                        </div>
+                        <div class="col">
+                            <button (click)="removeInProducts(i)" class="btn btn-danger"> Remove</button>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-2">
+                <label for="commision">Commision</label>
+                <input type="number" formControlName="commision" placeholder="Commision">
+            </div>
+            <div class="col-2">
+                <label for="toll">Toll</label>
+                <input type="number" formControlName="toll">
+            </div>
+            <div class="col-2">
+                <label for="wages">Wages</label>
+                <input type="number" formControlName="wages">
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row" formGroupName="outVegitable">
+            <div class="col">
+                <input type="text" #businessMan placeholder="BusinessMan">
+            </div>
+            <div class="col">
+                <select placeholder="Products" #outProduct>
+                    <option>--Products--</option>
+                    <option *ngFor="let product of productsName">
+                        {{product}}
+                    </option>
+                </select>
+            </div>
+            <div class="col">
+                <input type="number" #outKgs placeholder="Kgs" (blur)="onBlurOutKgs()">
+            </div>
+            <div class="col">
+                <input type="number" #outPack placeholder="Pack" (blur)="onBlurOutPack()">
+            </div>
+            <div class="col">
+                <input type="number" #outRate placeholder="Rate" (blur)="onBlurOutRate()">
+            </div>
+            <div class="col">
+                <input type="number" #outAmount placeholder="Amount" disabled>
+            </div>
+        </div>
+        <ng-container *ngFor="let proud of outProductsArr.controls; let i = index">
+            <div class="row" [formGroup]="proud">
+                <div class="col">
+                    <input type="text" formControlName="businessMan" placeholder="BusinessMan">
+                </div>
+                <div class="col">
+                    <input type="text" formControlName="outProduct" placeholder="Product">
+                </div>
+                <div class="col">
+                    <input type="number" formControlName="outKgs" placeholder="Kgs">
+                </div>
+                <div class="col">
+                    <input type="number" formControlName="outPack" placeholder="Pack">
+                </div>
+                <div class="col">
+                    <input type="number" formControlName="outRate" placeholder="Rate">
+                </div>
+                <div class="col">
+                    <input type="number" formControlName="outAmount" placeholder="Amount">
+                </div>
+                <div class="col">
+                    <button (click)="removeOutProducts(i)" class="btn btn-danger"> Remove</button>
+                </div>
+            </div>
+        </ng-container>
+        <br>
+        <button (click)="addOutProductsArray()" class="btn btn-primary">Add Out Products</button>
+        <br>
+        <br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+</div>
+
+<div class="container">
+    <form [formGroup]="packForm">
+        <!-- Modal -->
+        <div id="myModal" class="modal" role="dialog" *ngIf="modalOpen">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title">Pack Details</h4>
+                        <button type="button" class="close" (click)="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <ng-container *ngFor="let pack of inPackModalArr.controls; let i = index">
+                            <div class="row" [formGroup]="pack">
+                                <div class="col">
+                                    <input type="text" formControlName="modalPack">
+                                </div>
+                            </div>
+                        </ng-container>
+                        <!-- <input type="number" *ngFor="let val of packArray" /> -->
+                        <!-- <div>{{currentPackinfo}}</div> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" (click)="saveModel()">Submit</button>
+                        <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<!-- <ng-container *ngFor="let val of packArray; let i = index">
+    <div class="row">
+        <div class="col">
+            <div class="row" [formGroup]="pack">
+                <div class="col">
+                    <input type="text" formControlName="modalPack">
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container> -->
+<!-- <app-packmodel [user]="user"></app-packmodel> -->
+<!--<app-packmodel [numb]="numb"></app-packmodel>-->
