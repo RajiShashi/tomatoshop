@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col">
                 <label for="billno">Billno</label>
-                <input type="number" formControlName="billno" placeholder="BillNo">
+                <input type="number" formControlName="billno" placeholder="BillNo" readonly >
             </div>
             <div class="col">
                 <label for="date">Date</label>
@@ -14,9 +14,9 @@
             <div class="col">
                 <label for="customerid">CustomerName</label>
                 <select placeholder="Farmer" #customerName>
-                    <option>--FarmerName--</option>
+                    <option>Select Farmer</option>
                     <option *ngFor="let farmer of farmerType">
-                        {{farmer.customername }}
+                        {{farmer.pname }}
                     </option>
                 </select>
                 <!-- <label for="farmerName">FarmerName</label>
@@ -47,7 +47,13 @@
         <br>
         <div class="row" formGroupName="inVegitable">
             <div class="col">
-                <input type="text" #product formControlName="product" placeholder="Product" (blur)="onBlurInProduct()">
+                <select placeholder="Product" #product formControlName="product">
+                    <option>Select Product</option>
+                    <option *ngFor="let product of productList">
+                        {{product.name }}
+                    </option>
+                </select>
+                <!--<input type="text" #product formControlName="product" placeholder="Product" (blur)="onBlurInProduct()">-->
             </div>
             <div class="col">
                 <input type="number" #kgs formControlName="kgs" placeholder="Kgs" (blur)="onBlurInKgs()" disabled>
@@ -70,7 +76,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button [disabled]="!inVegitable.valid" (click)="addInProductsArray()" class="btn btn-primary">Add
+                    <button type="button" [disabled]="!inVegitable.valid" (click)="addInProductsArray()" class="btn btn-primary">Add
                         Products</button>
                     <!-- <button [disabled]="inVegitable.invalid" (click)="addInProductsArray()" class="btn btn-primary">Add
                             Products</button> -->
@@ -145,23 +151,6 @@
         </div>
         <br>
         <br>
-        <div class="row">
-            <div class="col">
-                <!-- <select #business (change)="selectBusinessman(business.value)">
-                    <option *ngFor="let b of businessMan" [value]="b.id">
-                        {{b.customername}}
-                    </option>
-                </select> -->
-                <select #businessMan (change)="selectBusinessman(businessMan.value)">
-                    <option>--BusinessMan--</option>
-                    <option *ngFor="let business of businessManType" [value]="business.id">
-                        {{business.customername }}
-                    </option>
-                </select>
-                <!-- <input type="text" #businessMan placeholder="BusinessMan"> -->
-            </div>
-        </div>
-        <br>
         <br>
         <div class="col">
             <!-- <select placeholder="BusinessMan" #businessMan>
@@ -173,6 +162,20 @@
             <!-- <input type="text" #businessMan placeholder="BusinessMan"> -->
         </div>
         <div class="row" formGroupName="outVegitable">
+            <div class="col">
+                <!-- <select #business (change)="selectBusinessman(business.value)">
+                    <option *ngFor="let b of businessMan" [value]="b.id">
+                        {{b.customername}}
+                    </option>
+                </select> -->
+                <select #businessMan (change)="selectBusinessman(businessMan.value)">
+                    <option>Select BusinessMan</option>
+                    <option *ngFor="let business of businessManType" [value]="business.pname">
+                        {{business.pname }}
+                    </option>
+                </select>
+                <!-- <input type="text" #businessMan placeholder="BusinessMan"> -->
+            </div>
             <div class="col">
                 <select placeholder="Products" #outProduct>
                     <option>--Products--</option>
@@ -195,7 +198,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button [disabled]="!outVegitable.valid" (click)="addOutProductsArray()" class="btn btn-primary">Add
+                    <button  (click)="addOutProductsArray()" class="btn btn-primary" type="button">Add
                         Out Products</button>
                 </div>
             </div>
@@ -253,7 +256,7 @@
                         <ng-container *ngFor="let pack of inPackModalArr.controls; let i = index">
                             <div class="row" [formGroup]="pack">
                                 <div class="col">
-                                    <input type="text" formControlName="modalPack">
+                                    {{i+1}}:&nbsp;&nbsp;<input type="text" formControlName="modalPack">
                                 </div>
                             </div>
                         </ng-container>

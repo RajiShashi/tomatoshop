@@ -49,12 +49,13 @@ export class SalesentryComponent implements OnInit {
   valArray: any[] = [];
   packForm!: FormGroup;
 
-  customers!: ICustomers[];
+  customers!: any[];
   farmerType!: any[];
   businessManType!: any[];
   customerid!: number;
 
   salesmaster: any[] = [];
+  productList: any[] = [];
 
   constructor(private fb: FormBuilder, private _salesService: SalesentryserviceService) { }
 
@@ -62,8 +63,17 @@ export class SalesentryComponent implements OnInit {
 
     this._salesService.getAllCustomer().subscribe(c => {
       this.customers = c?.data;
-      this.farmerType = this.customers.filter(farmer => farmer.customertype == "Farmer")
-      this.businessManType = this.customers.filter(business => business.customertype == "BusinessMan")
+      this.farmerType = this.customers.filter(farmer => farmer.category == "FORMER")
+      this.businessManType = this.customers.filter(business => business.category == "CUSTOMER")
+    });
+
+    this._salesService.getBillno(0).subscribe(res => {
+      this.salesForm.controls['billno'].setValue(res['data'][0].billno+1) ;
+    })
+
+    this._salesService.getProductList().subscribe(res => {
+      this.productList = res['data'];
+      console.log(this.productList);
     })
 
     this.salesForm = this.fb.group({
@@ -149,8 +159,9 @@ export class SalesentryComponent implements OnInit {
 
   saveModel() {
     // let valArray = [];
-    this.pack.nativeElement.value = "";
+    //this.pack.nativeElement.value = "";
     this.packArray = this.packForm.get("inPackModalArray")?.value;
+    console.log(this.packArray);
 
     for (let i = 0; i < this.packArray.length; i++) {
       this.valArray.push(this.packArray[i].modalPack)
@@ -161,14 +172,14 @@ export class SalesentryComponent implements OnInit {
 
 
     var packValue = this.valArray.join(',');
-    this.pack.nativeElement.value = packValue;
+    //this.pack.nativeElement.value = packValue;
 
     const control = <FormArray>this.packForm.controls['inPackModalArray'];
     for (let i = control.length - 1; i >= 0; i--) {
       control.removeAt(i)
     }
     this.modalOpen = false;
-   
+    console.log(this.packArray);
   }
 
   get inVegitable(): FormGroup {
@@ -200,6 +211,7 @@ export class SalesentryComponent implements OnInit {
   }
 
   onBlurOutRate(): void {
+    console.log(this.outVegitable);
     if (this.outKgs.nativeElement.value != 0) {
       let outAmount = this.outKgs.nativeElement.value * this.outRate.nativeElement.value;
       this.outAmount.nativeElement.value = outAmount;
@@ -275,13 +287,16 @@ export class SalesentryComponent implements OnInit {
   }
 
   addInProductsArray() {
+    console.log(this.packArray);
     const inProductsGroup = this.fb.group({
       product: [this.product.nativeElement.value],
       kgs: [this.kgs.nativeElement.value],
       pack: [this.pack.nativeElement.value],
       rate: [this.rate.nativeElement.value],
-      amount: [this.kgs.nativeElement.value * this.rate.nativeElement.value]
+      amount: [this.kgs.nativeElement.value * this.rate.nativeElement.value],
+      packValue: [this.packArray]
     })
+    
 
     this.inProductsArr.push(inProductsGroup);
     console.log(this.inProductsArr);
@@ -385,7 +400,7 @@ export class SalesentryComponent implements OnInit {
       'billno': this.salesForm.get("billno")?.value,
       'date': this.salesForm.get("date")?.value,
       'customerid': this.customerid,
-      'comission': this.salesForm.get("comission")?.value,
+      'commision': this.salesForm.get("commision")?.value,
       'rent': this.salesForm.get("rent")?.value,
       'credit': this.salesForm.get("credit")?.value,
       'wages': this.salesForm.get("wages")?.value,

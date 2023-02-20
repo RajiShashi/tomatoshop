@@ -14,9 +14,9 @@ router.post('/', async function(req, res, next) {
     }
 });
 
-router.get('/', async function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
-        res.json(await salesmaster.getSalesId(req.query.page));
+        res.json(await salesmaster.getSalesId(req.params.id));
     } catch (err) {
         console.error(`Error while getting sales entry `, err.message);
         next(err);

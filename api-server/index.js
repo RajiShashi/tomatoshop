@@ -5,6 +5,7 @@ const port = 3000;
 const customerlist = require("./routes/customerlist");
 const customer = require("./routes/customer");
 const salesmaster = require("./routes/salesmaster");
+const productlist = require("./routes/productlist");
 
 app.use(cors());
 app.use(express.json());
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 app.use("/customerlist", customerlist);
 app.use("/customer", customer);
 app.use("/salesmaster", salesmaster);
+app.use("/productlist", productlist);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

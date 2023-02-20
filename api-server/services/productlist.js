@@ -2,10 +2,10 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
 
-async function getCustomerList(page = 1){
+async function getProductList(page = 1){
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
-    `SELECT * FROM party`
+    `SELECT * FROM products`
   );
   const data = helper.emptyOrRows(rows);
   const meta = {page};
@@ -26,7 +26,7 @@ async function getCustomerList(page = 1){
 //    }
 // }
 
-async function createcustomer(customer){
+async function createproduct(customer){
     const result = await db.query(
       `INSERT INTO customers 
       (customername, customertype, address, outletarea, phonenumber, tinnumber) 
@@ -48,6 +48,6 @@ async function createcustomer(customer){
  
 
 module.exports = {
-    getCustomerList,
-    createcustomer,
+  getProductList,
+  createproduct,
 }
