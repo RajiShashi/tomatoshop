@@ -61,6 +61,7 @@ export class SalesentryComponent implements OnInit {
   productList: any[] = [];
   model!: NgbDateStruct;
   window: any;
+  validation: boolean = false;
 
   constructor(@Inject(DOCUMENT) private _document: any, private fb: FormBuilder, private _salesService: SalesentryserviceService) {
     this.window = this._document.defaultView;
@@ -74,14 +75,9 @@ export class SalesentryComponent implements OnInit {
       this.customers = c?.data;
       this.customers.forEach((value,index) =>{
         value.pname = this.window.ConvertToo('Tscii',value.pname);
-
       });
       this.farmerType = this.customers.filter(farmer => farmer.category == "FORMER");
-      //console.log(this.farmerType);
-      console.log(this.window.ConvertToo('Tscii','§Á¡¸ý. sm.ÀðÊ'));
-     
       this.businessManType = this.customers.filter(business => business.category == "CUSTOMER");
-
     });
 
     this._salesService.getBillno(0).subscribe(res => {
@@ -90,10 +86,8 @@ export class SalesentryComponent implements OnInit {
 
     this._salesService.getProductList().subscribe(res => {
       this.productList = res['data'];
-      console.log(this.productList);
       this.productList.forEach((value,index) =>{
         value.name = this.window.ConvertToo('Tscii',value.name);
-
       });
     })
     const today = new Date();
@@ -101,10 +95,8 @@ export class SalesentryComponent implements OnInit {
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     let yyyy = today.getFullYear().toString().substr(-2);;
     let todayDate = dd + '-' + mm + '-' + yyyy;
-
     this.salesForm = this.fb.group({
-
-      outVegitable: this.fb.group({
+    outVegitable: this.fb.group({
         businessMan: ["",Validators.required],
         outProduct: [""],
         outKgs: [""],
@@ -120,9 +112,6 @@ export class SalesentryComponent implements OnInit {
         amount: [""]
       }),
       inword: this.fb.group({
-        // 'billno': ["", Validators.required],
-        // 'date': [],
-        // 'farmerName': [],
         'inProductsArray': this.fb.array([])
       }),
       outword: this.fb.group({
@@ -161,11 +150,9 @@ export class SalesentryComponent implements OnInit {
   openModal() {
     this.currentPackinfo = Number(this.pack.nativeElement.value);
     for (let i = 0; i < Number(this.currentPackinfo); i++) {
-
       const packGroup = this.fb.group({
         modalPack: ''
       });
-
       this.inPackModalArr.push(packGroup);
     }
     this.modalOpen = true;
@@ -276,9 +263,11 @@ export class SalesentryComponent implements OnInit {
 
     //step:4
     let valid = true;
+    this.validation = true;
     if (totalOutwordKgs > totalInKgs) {
       alert("OutKgs exceed than InKgs..");
       valid = false;
+      this.validation = false;
     }
 
     //step:5
@@ -423,7 +412,7 @@ export class SalesentryComponent implements OnInit {
 
   onClickSubmit():any  {
     console.log(this.salesForm.valid);
-    if(!this.salesForm.valid) {
+    if(!this.validation) {
       return false;
     }
     let sales = {
