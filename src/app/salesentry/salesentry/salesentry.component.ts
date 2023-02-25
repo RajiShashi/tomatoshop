@@ -1,14 +1,17 @@
-import { Component, ElementRef, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Input, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { SalesentryserviceService } from '../salesentryservice.service';
 import { ICustomers } from 'src/app/customers/ICustomers';
-
+import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { JsonPipe } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-salesentry',
   templateUrl: './salesentry.component.html',
-  styleUrls: ['./salesentry.component.css']
+  styleUrls: ['./salesentry.component.css'],
+  
 })
 
 export class SalesentryComponent implements OnInit {
@@ -56,15 +59,29 @@ export class SalesentryComponent implements OnInit {
 
   salesmaster: any[] = [];
   productList: any[] = [];
+  model!: NgbDateStruct;
+  window: any;
 
-  constructor(private fb: FormBuilder, private _salesService: SalesentryserviceService) { }
+  constructor(@Inject(DOCUMENT) private _document: any, private fb: FormBuilder, private _salesService: SalesentryserviceService) {
+    this.window = this._document.defaultView;
+    console.log('document', _document)
+  }
+  //constructor(private _document: @Inject(DOCUMENT) , private fb: FormBuilder, private _salesService: SalesentryserviceService) { }
 
   ngOnInit(): void {
 
     this._salesService.getAllCustomer().subscribe(c => {
       this.customers = c?.data;
-      this.farmerType = this.customers.filter(farmer => farmer.category == "FORMER")
-      this.businessManType = this.customers.filter(business => business.category == "CUSTOMER")
+      this.customers.forEach((value,index) =>{
+        value.pname = this.window.ConvertToo('Tscii',value.pname);
+
+      });
+      this.farmerType = this.customers.filter(farmer => farmer.category == "FORMER");
+      //console.log(this.farmerType);
+      console.log(this.window.ConvertToo('Tscii','§Á¡¸ý. sm.ÀðÊ'));
+     
+      this.businessManType = this.customers.filter(business => business.category == "CUSTOMER");
+
     });
 
     this._salesService.getBillno(0).subscribe(res => {
@@ -74,7 +91,16 @@ export class SalesentryComponent implements OnInit {
     this._salesService.getProductList().subscribe(res => {
       this.productList = res['data'];
       console.log(this.productList);
+      this.productList.forEach((value,index) =>{
+        value.name = this.window.ConvertToo('Tscii',value.name);
+
+      });
     })
+    const today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear().toString().substr(-2);;
+    let todayDate = dd + '-' + mm + '-' + yyyy;
 
     this.salesForm = this.fb.group({
 
@@ -104,7 +130,7 @@ export class SalesentryComponent implements OnInit {
         'outProductsArray': this.fb.array([])
       }),
       billno: [],
-      date: [],
+      date: [todayDate],
       farmerName: [],
       commision: [],
       toll: [],
@@ -395,7 +421,11 @@ export class SalesentryComponent implements OnInit {
     }
   }
 
-  onClickSubmit(): void {
+  onClickSubmit():any  {
+    console.log(this.salesForm.valid);
+    if(!this.salesForm.valid) {
+      return false;
+    }
     let sales = {
       'billno': this.salesForm.get("billno")?.value,
       'date': this.salesForm.get("date")?.value,
@@ -418,8 +448,10 @@ export class SalesentryComponent implements OnInit {
       this.salesmaster.push(salesentry);
       alert("Sales entry added successfully..");
       this.salesForm.reset();
+      window.location.reload();
     })
 
   }
 
+  
 }

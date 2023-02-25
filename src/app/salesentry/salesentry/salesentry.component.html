@@ -5,18 +5,20 @@
         <div class="row">
             <div class="col">
                 <label for="billno">Billno</label>
-                <input type="number" formControlName="billno" placeholder="BillNo" readonly >
+                <input type="number" formControlName="billno" placeholder="BillNo" readonly disabled>
             </div>
             <div class="col">
                 <label for="date">Date</label>
-                <input type="datetime-local" formControlName="date">
+                <div class="input-group">
+                    <input type="text" formControlName="date" readonly disabled >
+                </div>
             </div>
             <div class="col">
                 <label for="customerid">CustomerName</label>
                 <select placeholder="Farmer" #customerName>
                     <option>Select Farmer</option>
-                    <option *ngFor="let farmer of farmerType">
-                        {{farmer.pname }}
+                    <option *ngFor="let farmer of farmerType" >
+                        {{farmer.pname}}
                     </option>
                 </select>
                 <!-- <label for="farmerName">FarmerName</label>
