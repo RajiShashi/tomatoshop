@@ -3,18 +3,18 @@
 <div class="container">
     <form [formGroup]="salesForm" (ngSubmit)="onClickSubmit()">
         <div class="row">
-            <div class="col">
-                <label for="billno">Billno</label>
-                <input type="number" formControlName="billno" placeholder="BillNo" readonly disabled>
+            <div class="col col-3">
+                <label for="billno">Billno</label><br/>
+                <input type="number" formControlName="billno" placeholder="BillNo" readonly disabled >
             </div>
-            <div class="col">
-                <label for="date">Date</label>
-                <div class="input-group">
-                    <input type="text" formControlName="date" readonly disabled >
-                </div>
+            <div class="col col-3">
+                <label for="date">Date</label><br/>
+                
+                <input type="text" formControlName="date" readonly disabled >
+               
             </div>
-            <div class="col">
-                <label for="customerid">CustomerName</label>
+            <div class="col col-6">
+                <label for="customerid">CustomerName</label><br/>
                 <select placeholder="Farmer" #customerName>
                     <option>Select Farmer</option>
                     <option *ngFor="let farmer of farmerType" >
@@ -61,10 +61,8 @@
                 <input type="number" #kgs formControlName="kgs" placeholder="Kgs" (blur)="onBlurInKgs()" disabled>
             </div>
             <div class="col">
-                <input type="string" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()">
-                <a class='nav-link' (click)="openModal()">
-                    <i class="fa fa-plus"></i>
-                </a>
+                <input type="string" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()"><i (click)="openModal()" class="fa fa-plus"></i>
+                
             </div>
             <!-- <div class="col">
                 <input type="number" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()">
@@ -76,14 +74,14 @@
             <div class="col">
                 <input type="number" #amount placeholder="Amount" disabled>
             </div>
-            <div class="row">
-                <div class="col">
-                    <button type="button" [disabled]="!inVegitable.valid" (click)="addInProductsArray()" class="btn btn-primary">Add
-                        Products</button>
-                    <!-- <button [disabled]="inVegitable.invalid" (click)="addInProductsArray()" class="btn btn-primary">Add
-                            Products</button> -->
-                </div>
+           
+            <div class="col">
+                <button type="button" [disabled]="!inVegitable.valid" (click)="addInProductsArray()" class="btn btn-primary">Add
+                    Products</button>
+                <!-- <button [disabled]="inVegitable.invalid" (click)="addInProductsArray()" class="btn btn-primary">Add
+                        Products</button> -->
             </div>
+           
         </div>
         <br>
         <br>
@@ -124,30 +122,29 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-2">
+            <div class="col col-2">
                 <label for="commision">Commision:</label>
                 <input type="number" formControlName="commision">
             </div>
-            <div class="col-2">
-                <label for="toll">Toll:</label>
+            <div class="col col-2">
+                <label for="toll">Toll:</label><br/>
                 <input type="number" formControlName="toll">
             </div>
-            <div class="col-2">
-                <label for="wages">Wages:</label>
+            <div class="col col-2">
+                <label for="wages">Wages:</label><br/>
                 <input type="number" formControlName="wages">
             </div>
-        </div>
-        <div class="row">
-            <div class="col-2">
-                <label for="rent">Rent:</label>
+        
+            <div class="col  col-2">
+                <label for="rent">Rent:</label><br/>
                 <input type="number" formControlName="rent">
             </div>
-            <div class="col-2">
-                <label for="debit">Debit:</label>
+            <div class="col col-2">
+                <label for="debit">Debit:</label><br/>
                 <input type="number" formControlName="debit">
             </div>
-            <div class="col-2">
-                <label for="credit">Credit:</label>
+            <div class="col col-2">
+                <label for="credit">Credit:</label><br/>
                 <input type="number" formControlName="credit">
             </div>
         </div>
