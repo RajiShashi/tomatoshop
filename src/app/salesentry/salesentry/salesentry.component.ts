@@ -411,8 +411,27 @@ export class SalesentryComponent implements OnInit {
   }
 
   onClickSubmit():any  {
-    console.log(this.salesForm.valid);
-    if(!this.validation) {
+    console.log(this.inProductsArr, this.outProductsArr);
+    let productValidation = true;
+    let inword:any = [];
+    let outword:any = [];
+    this.inProductsArr.controls.forEach(function(value, index){
+      (inword[value.value.product])?'':inword[value.value.product]=0;
+      inword[value.value.product] = Number(inword[value.value.product])+Number(value.value.kgs)
+    });
+    this.outProductsArr.controls.forEach(function(value, index){
+      (outword[value.value.outProduct])?'':outword[value.value.outProduct]=0;
+      outword[value.value.outProduct] = Number(outword[value.value.outProduct])+Number(value.value.outKgs)
+    });
+    Object.keys(inword).forEach(function(val:any, ind:any){
+      console.log(val, ind);
+      if(!outword[val] || inword[val] > outword[val]) {
+        productValidation = false;
+        alert(val +" Kgs not matched with inword entry");
+        return;
+      }
+    });
+    if(!productValidation) {
       return false;
     }
     let sales = {
