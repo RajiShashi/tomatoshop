@@ -242,7 +242,7 @@
     <form [formGroup]="packForm">
         <!-- Modal -->
         <div id="myModal" class="modal" role="dialog" *ngIf="modalOpen">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width:400px;">
 
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -254,7 +254,7 @@
                     <div class="modal-body">
                         <ng-container *ngFor="let pack of inPackModalArr.controls; let i = index">
                             <div class="row" [formGroup]="pack">
-                                <div class="col">
+                                <div class="col col-4">
                                     {{i+1}}:&nbsp;&nbsp;<input type="text" formControlName="modalPack">
                                 </div>
                             </div>
