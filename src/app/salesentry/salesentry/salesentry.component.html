@@ -1,7 +1,7 @@
 <br>
 <br>
 <div class="container">
-    <form [formGroup]="salesForm" (ngSubmit)="onClickSubmit()">
+    <form [formGroup]="salesForm" >
         <div class="row">
             <div class="col col-3">
                 <label for="billno">Billno</label><br/>
@@ -15,7 +15,7 @@
             </div>
             <div class="col col-6">
                 <label for="customerid">CustomerName</label><br/>
-                <select placeholder="Farmer" #customerName>
+                <select placeholder="Farmer" #customerName formControlName="farmerName">
                     <option>Select Farmer</option>
                     <option *ngFor="let farmer of farmerType" >
                         {{farmer.pname}}
@@ -61,7 +61,7 @@
                 <input type="number" #kgs formControlName="kgs" placeholder="Kgs" (blur)="onBlurInKgs()" disabled>
             </div>
             <div class="col">
-                <input type="string" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()"><i (click)="openModal()" class="fa fa-plus"></i>
+                <input type="string" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()" (keydown.enter)="openModal()" ><i (click)="openModal()" class="fa fa-plus"></i>
                 
             </div>
             <!-- <div class="col">
@@ -77,7 +77,7 @@
            
             <div class="col">
                 <button type="button" [disabled]="!inVegitable.valid" (click)="addInProductsArray()" class="btn btn-primary">Add
-                    Products</button>
+                    </button>
                 <!-- <button [disabled]="inVegitable.invalid" (click)="addInProductsArray()" class="btn btn-primary">Add
                         Products</button> -->
             </div>
@@ -167,7 +167,7 @@
                         {{b.customername}}
                     </option>
                 </select> -->
-                <select #businessMan (change)="selectBusinessman(businessMan.value)">
+                <select #businessMan (change)="selectBusinessman(businessMan.value)" formControlName="businessMan">
                     <option>Select BusinessMan</option>
                     <option *ngFor="let business of businessManType" [value]="business.pname">
                         {{business.pname }}
@@ -176,7 +176,7 @@
                 <!-- <input type="text" #businessMan placeholder="BusinessMan"> -->
             </div>
             <div class="col">
-                <select placeholder="Products" #outProduct>
+                <select placeholder="Products" #outProduct formControlName="outProduct">
                     <option>--Products--</option>
                     <option *ngFor="let product of productsName">
                         {{product}}
@@ -184,23 +184,22 @@
                 </select>
             </div>
             <div class="col">
-                <input type="number" #outKgs placeholder="Kgs" (blur)="onBlurOutKgs()">
+                <input type="number" #outKgs placeholder="Kgs" (blur)="onBlurOutKgs()" formControlName="outKgs">
             </div>
             <div class="col">
-                <input type="string" #outPack placeholder="Pack" (blur)="onBlurOutPack()">
+                <input type="string" #outPack placeholder="Pack" (blur)="onBlurOutPack()" formControlName="outPack">
             </div>
             <div class="col">
-                <input type="number" #outRate placeholder="Rate" (blur)="onBlurOutRate()">
+                <input type="number" #outRate placeholder="Rate" (blur)="onBlurOutRate()" formControlName="outRate">
             </div>
             <div class="col">
-                <input type="number" #outAmount placeholder="Amount" disabled>
+                <input type="number" #outAmount placeholder="Amount" disabled formControlName="outAmount">
             </div>
-            <div class="row">
-                <div class="col">
-                    <button  (click)="addOutProductsArray()" class="btn btn-primary" type="button">Add
-                        Out Products</button>
-                </div>
+            <div class="col">
+                <button [disabled]="!outVegitable.valid" (click)="addOutProductsArray()" class="btn btn-primary" type="button">Add
+                    </button>
             </div>
+           
         </div>
         <br>
         <ng-container *ngFor="let proud of outProductsArr.controls; let i = index">
@@ -234,7 +233,7 @@
 
         <br>
         <br>
-        <button class="btn btn-primary" type="submit">Submit</button>
+        <button class="btn btn-primary" type="button" (click)="onClickSubmit()">Submit</button>
     </form>
 </div>
 
@@ -263,7 +262,7 @@
                         <!-- <div>{{currentPackinfo}}</div> -->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" (click)="saveModel()">Submit</button>
+                        <button type="submit" class="btn btn-primary" (click)="saveModel()">Submit</button>
                         <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
                     </div>
 

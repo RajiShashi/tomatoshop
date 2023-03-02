@@ -98,10 +98,10 @@ export class SalesentryComponent implements OnInit {
     this.salesForm = this.fb.group({
     outVegitable: this.fb.group({
         businessMan: ["",Validators.required],
-        outProduct: [""],
-        outKgs: [""],
+        outProduct: ["",Validators.required],
+        outKgs: ["",Validators.required],
         outPack: [""],
-        outRate: [""],
+        outRate: ["",Validators.required],
         outAmount: [""]
       }),
       inVegitable: this.fb.group({
@@ -173,6 +173,7 @@ export class SalesentryComponent implements OnInit {
   saveModel() {
     // let valArray = [];
     //this.pack.nativeElement.value = "";
+    this.valArray = [];
     this.packArray = this.packForm.get("inPackModalArray")?.value;
     console.log(this.packArray);
 
@@ -423,14 +424,25 @@ export class SalesentryComponent implements OnInit {
       (outword[value.value.outProduct])?'':outword[value.value.outProduct]=0;
       outword[value.value.outProduct] = Number(outword[value.value.outProduct])+Number(value.value.outKgs)
     });
-    Object.keys(inword).forEach(function(val:any, ind:any){
-      console.log(val, ind);
-      if(!outword[val] || inword[val] > outword[val]) {
-        productValidation = false;
-        alert(val +" Kgs not matched with inword entry");
-        return;
-      }
-    });
+    if(this.salesForm.get("farmerName")?.value == null && productValidation) {
+      alert("Please select farmer");
+      productValidation = false;
+      return false;
+    }
+    if(Object.keys(inword).length > 0) {
+      Object.keys(inword).forEach(function(val:any, ind:any){
+        console.log(val, ind);
+        if(!outword[val] || inword[val] > outword[val]) {
+          productValidation = false;
+          alert(val +" Kgs not matched with inword entry");
+          return;
+        }
+      });
+    } else {
+      alert("Please enter values");
+      productValidation = false;
+    }
+    
     if(!productValidation) {
       return false;
     }
