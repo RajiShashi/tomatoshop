@@ -4,7 +4,7 @@ const config = {
       host: "localhost",
       user: "root",
       password: "",
-      database: "tomatoshoppe1",
+      database: "tomatoshopee",
     },
     listPerPage: 10,
   };

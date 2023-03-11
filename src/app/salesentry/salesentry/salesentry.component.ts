@@ -93,7 +93,11 @@ export class SalesentryComponent implements OnInit {
 
 
     this._salesService.getBillno(0).subscribe(res => {
-      this.salesForm.controls['billno'].setValue(res['data'][0].billno + 1);
+     let billnoval = 0; 
+     if(res['data'][0] && res['data'][0].billno) {
+      billnoval = res['data'][0].billno;
+     }
+      this.salesForm.controls['billno'].setValue(Number(billnoval) + 1);
     })
 
     this._salesService.getProductList().subscribe(res => {
@@ -167,6 +171,16 @@ export class SalesentryComponent implements OnInit {
 
   selectBusinessman(value: any): void {
     this.customerid = value;
+    
+  }
+
+  selectProduct() {
+   if(this.product.nativeElement.value == 'தக்காளி') {
+     this.disableTextbox = false;
+   } else {
+    this.disableTextbox = true;;
+   }
+    
   }
 
   onSelected(value: any): void {
@@ -179,7 +193,7 @@ export class SalesentryComponent implements OnInit {
 
   openModal() {
     if (this.product.nativeElement.value == "தக்காளி") {
-      this.disableTextbox = !this.disableTextbox;
+      //this.disableTextbox = !this.disableTextbox;
     }
     else {
       this.currentPackinfo = Number(this.pack.nativeElement.value);
@@ -556,12 +570,21 @@ export class SalesentryComponent implements OnInit {
 
     this.inProductsArr.controls.forEach(function (value, index) {
       (inword[value.value.product]) ? '' : inword[value.value.product] = 0;
-      inword[value.value.product] = Number(inword[value.value.product]) + Number(value.value.kgs)
+      if(value.value.product == 'தக்காளி') {
+        inword[value.value.product] = Number(inword[value.value.product]) + Number(value.value.pack)
+      } else {
+        inword[value.value.product] = Number(inword[value.value.product]) + Number(value.value.kgs)
+      }
     });
 
     this.outProductsArr.controls.forEach(function (value, index) {
       (outword[value.value.outProduct]) ? '' : outword[value.value.outProduct] = 0;
-      outword[value.value.outProduct] = Number(outword[value.value.outProduct]) + Number(value.value.outKgs)
+      if(value.value.outProduct == 'தக்காளி') {
+        outword[value.value.outProduct] = Number(outword[value.value.outProduct]) + Number(value.value.outPack)
+      } else {
+        outword[value.value.outProduct] = Number(outword[value.value.outProduct]) + Number(value.value.outKgs)
+      }
+      
     });
 
     if (this.salesForm.get("farmerName")?.value == null && productValidation) {
@@ -592,7 +615,7 @@ export class SalesentryComponent implements OnInit {
     let sales = {
       'billno': this.salesForm.get("billno")?.value,
       'date': this.salesForm.get("date")?.value,
-      'customerid': this.customerid,
+      'customerid': this.salesForm.get("farmerName")?.value,
       'commision': this.salesForm.get("commision")?.value,
       'rent': this.salesForm.get("rent")?.value,
       'credit': this.salesForm.get("credit")?.value,

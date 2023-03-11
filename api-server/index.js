@@ -6,6 +6,7 @@ const customerlist = require("./routes/customerlist");
 const customer = require("./routes/customer");
 const salesmaster = require("./routes/salesmaster");
 const productlist = require("./routes/productlist");
+const getreport = require("./routes/getreports");
 
 app.use(cors());
 app.use(express.json());
@@ -21,6 +22,7 @@ app.use("/customerlist", customerlist);
 app.use("/customer", customer);
 app.use("/salesmaster", salesmaster);
 app.use("/productlist", productlist);
+app.use("/getreports", getreport);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

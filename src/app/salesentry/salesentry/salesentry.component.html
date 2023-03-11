@@ -47,9 +47,9 @@
         <br>
         <div class="row" formGroupName="inVegitable">
             <div class="col">
-                <select placeholder="Product" #product formControlName="product">
+                <select placeholder="Product" #product formControlName="product" (change)="selectProduct()">
                     <option>Select Product</option>
-                    <option *ngFor="let product of productList">
+                    <option  *ngFor="let product of productList">
                         {{product.name }}
                     </option>
                 </select>
@@ -61,8 +61,8 @@
             <div class="col" id="model">
                 <input type="string" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()"
                     (keydown.enter)="openModal()">
-                <!-- <i (click)="openModal()" class="fa fa-plus"></i> -->
-                <button (click)="openModal()" [disabled]='disableTextbox'>Click</button>
+                <i (click)="openModal()" class="fa fa-plus" *ngIf="disableTextbox"></i> 
+                <!--<button (click)="openModal()" [disabled]='disableTextbox'>Click</button>-->
 
                 <!-- <i (click)="openModal()" class="fa fa-plus" [ngClass]="{'fa fa-plus' : tomato==false}"></i> -->
             </div>

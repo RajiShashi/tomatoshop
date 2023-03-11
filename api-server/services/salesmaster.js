@@ -39,7 +39,8 @@ async function createsalesmaster(request){
   const getrefno = await db.query(
     `SELECT refno from purchase ORDER BY refno DESC LIMIT 1`
   );
-  const refno = getrefno[0].refno+1;
+  
+  //const refno = getrefno[0].refno+1;
   for(var i=0;i<request.inwards.length;i++) {
   const result_inwords = await db.query(
     `INSERT INTO purchase 
@@ -60,7 +61,7 @@ async function createsalesmaster(request){
       code) 
     VALUES 
     ( '${request.sales.date}',
-      '${refno}',
+      '${salesid}',
       '${request.sales.customerid}',
       '${request.inwards[i].product}', 
       '${request.inwards[i].kgs}',
@@ -96,7 +97,7 @@ async function createsalesmaster(request){
         ) 
       VALUES 
       ( '${request.sales.date}',
-        '${refno}',
+        '${salesid}',
         '${request.sales.customerid}',
         '${request.outwards[i].businessMan}',
         '${request.outwards[i].outKgs}',
