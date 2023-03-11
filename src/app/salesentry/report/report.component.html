@@ -4,27 +4,35 @@
 
   <form #f="ngForm">
 
-    <div class="row">
+     <div class="row">
       <div class="col">
-        <label for="selectType">Type</label>
+        <label for="selectType">Type:</label>
         <select #stype (change)="onChange(stype.value)" [(ngModel)]="selectType" name="selectType">
-          <option [value]="null" [disabled]="true" [selected]> Select an option </option>
+          <option> Select an option </option> 
           <option *ngFor="let user of selectTypes" value="{{user.type}}">{{user.type}}</option>
         </select>
+
+        <!-- <select placeholder="Product" #product formControlName="product">
+          <option>Select Product</option>
+          <option *ngFor="let product of productList">
+              {{product.name }}
+          </option>
+      </select> -->
       </div>
-    </div>
+    </div> 
+
 
     <div class="row">
       <div class="col">
         <label for="fromDate">FromDate</label>
-        <input type="date" [ngModel]="fromDate" name="fromDate">
+        <input type="date" [ngModel]="fromDate" name="fromDate" >
       </div>
     </div>
 
     <div class="row">
       <div class="col">
         <label for="toDate">toDate</label>
-        <input type="date" [ngModel]="toDate" name="toDate" required>
+        <input type="date" [ngModel]="toDate" name="toDate" required max="{{maxDate}}">
       </div>
     </div>
 

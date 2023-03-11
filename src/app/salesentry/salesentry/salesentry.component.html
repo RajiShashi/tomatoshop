@@ -1,23 +1,21 @@
 <br>
 <br>
 <div class="container">
-    <form [formGroup]="salesForm" >
+    <form [formGroup]="salesForm">
         <div class="row">
             <div class="col col-3">
-                <label for="billno">Billno</label><br/>
-                <input type="number" formControlName="billno" placeholder="BillNo" readonly disabled >
+                <label for="billno">Billno</label><br />
+                <input type="number" formControlName="billno" placeholder="BillNo" readonly disabled>
             </div>
             <div class="col col-3">
-                <label for="date">Date</label><br/>
-                
-                <input type="text" formControlName="date" readonly disabled >
-               
+                <label for="date">Date</label><br />
+                <input type="text" formControlName="date" readonly disabled>
             </div>
             <div class="col col-6">
-                <label for="customerid">CustomerName</label><br/>
+                <label for="customerid">CustomerName</label><br />
                 <select placeholder="Farmer" #customerName formControlName="farmerName">
                     <option>Select Farmer</option>
-                    <option *ngFor="let farmer of farmerType" >
+                    <option *ngFor="let farmer of farmerType">
                         {{farmer.pname}}
                     </option>
                 </select>
@@ -58,11 +56,15 @@
                 <!--<input type="text" #product formControlName="product" placeholder="Product" (blur)="onBlurInProduct()">-->
             </div>
             <div class="col">
-                <input type="number" #kgs formControlName="kgs" placeholder="Kgs" (blur)="onBlurInKgs()" disabled>
+                <input type="number" #kgs formControlName="kgs" placeholder="Kgs" disabled>
             </div>
-            <div class="col">
-                <input type="string" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()" (keydown.enter)="openModal()" ><i (click)="openModal()" class="fa fa-plus"></i>
-                
+            <div class="col" id="model">
+                <input type="string" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()"
+                    (keydown.enter)="openModal()">
+                <!-- <i (click)="openModal()" class="fa fa-plus"></i> -->
+                <button (click)="openModal()" [disabled]='disableTextbox'>Click</button>
+
+                <!-- <i (click)="openModal()" class="fa fa-plus" [ngClass]="{'fa fa-plus' : tomato==false}"></i> -->
             </div>
             <!-- <div class="col">
                 <input type="number" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()">
@@ -74,14 +76,15 @@
             <div class="col">
                 <input type="number" #amount placeholder="Amount" disabled>
             </div>
-           
+
             <div class="col">
-                <button type="button" [disabled]="!inVegitable.valid" (click)="addInProductsArray()" class="btn btn-primary">Add
-                    </button>
+                <button type="button" [disabled]="!inVegitable.valid" (click)="addInProductsArray()"
+                    class="btn btn-primary">Add
+                </button>
                 <!-- <button [disabled]="inVegitable.invalid" (click)="addInProductsArray()" class="btn btn-primary">Add
                         Products</button> -->
             </div>
-           
+
         </div>
         <br>
         <br>
@@ -124,27 +127,32 @@
         <div class="row">
             <div class="col col-2">
                 <label for="commision">Commision:</label>
-                <input type="number" formControlName="commision">
+                <input type="number" formControlName="commision" disabled>
             </div>
             <div class="col col-2">
-                <label for="toll">Toll:</label><br/>
-                <input type="number" formControlName="toll">
+                <label for="toll">Toll:</label><br />
+                <input type="number" formControlName="toll" disabled>
             </div>
             <div class="col col-2">
-                <label for="wages">Wages:</label><br/>
-                <input type="number" formControlName="wages">
+                <label for="wages">Wages:</label><br />
+                <input type="number" formControlName="wages" disabled>
             </div>
-        
+            <div class="col col-2">
+                <label for="totalamount">TotalAmount:</label>
+                <input type="number" formControlName="totalamount" disabled>
+            </div>
+        </div>
+        <div class="row">
             <div class="col  col-2">
-                <label for="rent">Rent:</label><br/>
-                <input type="number" formControlName="rent">
+                <label for="rent">Rent:</label><br />
+                <input type="number" formControlName="rent" (blur)="onBlurRent()">
             </div>
             <div class="col col-2">
-                <label for="debit">Debit:</label><br/>
+                <label for="debit">Debit:</label><br />
                 <input type="number" formControlName="debit">
             </div>
             <div class="col col-2">
-                <label for="credit">Credit:</label><br/>
+                <label for="credit">Credit:</label><br />
                 <input type="number" formControlName="credit">
             </div>
         </div>
@@ -162,19 +170,29 @@
         </div>
         <div class="row" formGroupName="outVegitable">
             <div class="col">
-                <!-- <select #business (change)="selectBusinessman(business.value)">
-                    <option *ngFor="let b of businessMan" [value]="b.id">
-                        {{b.customername}}
-                    </option>
-                </select> -->
                 <select #businessMan (change)="selectBusinessman(businessMan.value)" formControlName="businessMan">
                     <option>Select BusinessMan</option>
                     <option *ngFor="let business of businessManType" [value]="business.pname">
                         {{business.pname }}
                     </option>
                 </select>
-                <!-- <input type="text" #businessMan placeholder="BusinessMan"> -->
             </div>
+            <!-- <div class="col">
+                <ng-autocomplete [data]="productList" [searchKeyword]="keyword" placeholder="Enter"
+                    (selected)='selectEvent($event)' (inputChanged)='onChangeSearch($event)'
+                    (inputFocused)='onFocused($event)' historyIdentifier="productList" [itemTemplate]="itemTemplate"
+                    [notFoundTemplate]="notFoundTemplate">
+                </ng-autocomplete>
+
+                <ng-template #itemTemplate let-item>
+                    <a [innerHTML]="item.name"></a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                </ng-template>
+
+            </div> -->
             <div class="col">
                 <select placeholder="Products" #outProduct formControlName="outProduct">
                     <option>--Products--</option>
@@ -184,10 +202,10 @@
                 </select>
             </div>
             <div class="col">
-                <input type="number" #outKgs placeholder="Kgs" (blur)="onBlurOutKgs()" formControlName="outKgs">
+                <input type="number" #outKgs placeholder="Kgs" formControlName="outKgs">
             </div>
             <div class="col">
-                <input type="string" #outPack placeholder="Pack" (blur)="onBlurOutPack()" formControlName="outPack">
+                <input type="string" #outPack placeholder="Pack" formControlName="outPack">
             </div>
             <div class="col">
                 <input type="number" #outRate placeholder="Rate" (blur)="onBlurOutRate()" formControlName="outRate">
@@ -196,16 +214,17 @@
                 <input type="number" #outAmount placeholder="Amount" disabled formControlName="outAmount">
             </div>
             <div class="col">
-                <button [disabled]="!outVegitable.valid" (click)="addOutProductsArray()" class="btn btn-primary" type="button">Add
-                    </button>
+                <button [disabled]="!outVegitable.valid" (click)="addOutProductsArray()" class="btn btn-primary"
+                    type="button">Add
+                </button>
             </div>
-           
+
         </div>
         <br>
         <ng-container *ngFor="let proud of outProductsArr.controls; let i = index">
             <div class="row" [formGroup]="proud">
                 <div class="col">
-                   
+
                     <input type="text" formControlName="businessMan" disabled>
                 </div>
                 <div class="col">
@@ -234,6 +253,7 @@
         <br>
         <br>
         <button class="btn btn-primary" type="button" (click)="onClickSubmit()">Submit</button>
+        <button class="btn btn-danger" type="button" (click)="onClickCancel()">Cancel</button>
     </form>
 </div>
 

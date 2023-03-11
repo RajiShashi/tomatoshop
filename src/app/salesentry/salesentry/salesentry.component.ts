@@ -11,7 +11,7 @@ import { DOCUMENT } from '@angular/common';
   selector: 'app-salesentry',
   templateUrl: './salesentry.component.html',
   styleUrls: ['./salesentry.component.css'],
-  
+
 })
 
 export class SalesentryComponent implements OnInit {
@@ -29,13 +29,13 @@ export class SalesentryComponent implements OnInit {
   @ViewChild("outRate") outRate!: ElementRef;
   @ViewChild("outAmount") outAmount!: ElementRef;
 
-  products = [
-    { name: 'Tomato' },
-    { name: 'Drumstick' },
-    { name: 'GreenChilly' },
-    { name: 'GreenPeas' },
-    { name: 'Brinjal' },
-  ];
+  // products = [
+  //   { name: 'Tomato' },
+  //   { name: 'Drumstick' },
+  //   { name: 'GreenChilly' },
+  //   { name: 'GreenPeas' },
+  //   { name: 'Brinjal' },
+  // ];
 
   productsName: any[] = [];
   getInArray: any[] = [];
@@ -52,16 +52,26 @@ export class SalesentryComponent implements OnInit {
   valArray: any[] = [];
   packForm!: FormGroup;
 
+  customerid!: number;
   customers!: any[];
   farmerType!: any[];
   businessManType!: any[];
-  customerid!: number;
+
 
   salesmaster: any[] = [];
   productList: any[] = [];
   model!: NgbDateStruct;
   window: any;
   validation: boolean = false;
+
+  //autocomplete
+  keyword = 'name';
+  tomato: any;
+  disableTextbox = false;
+
+  lessToll: number = 0;
+  lessWages: number = 0;
+  lessCommision: number = 0;
 
   constructor(@Inject(DOCUMENT) private _document: any, private fb: FormBuilder, private _salesService: SalesentryserviceService) {
     this.window = this._document.defaultView;
@@ -73,41 +83,46 @@ export class SalesentryComponent implements OnInit {
 
     this._salesService.getAllCustomer().subscribe(c => {
       this.customers = c?.data;
-      this.customers.forEach((value,index) =>{
-        value.pname = this.window.ConvertToo('Tscii',value.pname);
+      this.customers.forEach((value, index) => {
+        value.pname = this.window.ConvertToo('Tscii', value.pname);
       });
+
       this.farmerType = this.customers.filter(farmer => farmer.category == "FORMER");
       this.businessManType = this.customers.filter(business => business.category == "CUSTOMER");
     });
 
+
     this._salesService.getBillno(0).subscribe(res => {
-      this.salesForm.controls['billno'].setValue(res['data'][0].billno+1) ;
+      this.salesForm.controls['billno'].setValue(res['data'][0].billno + 1);
     })
 
     this._salesService.getProductList().subscribe(res => {
       this.productList = res['data'];
-      this.productList.forEach((value,index) =>{
-        value.name = this.window.ConvertToo('Tscii',value.name);
+      this.productList.forEach((value, index) => {
+        value.name = this.window.ConvertToo('Tscii', value.name);
       });
     })
+
+
     const today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     let yyyy = today.getFullYear().toString().substr(-2);;
     let todayDate = dd + '-' + mm + '-' + yyyy;
+
     this.salesForm = this.fb.group({
-    outVegitable: this.fb.group({
-        businessMan: ["",Validators.required],
-        outProduct: ["",Validators.required],
-        outKgs: ["",Validators.required],
+      outVegitable: this.fb.group({
+        businessMan: ["", Validators.required],
+        outProduct: ["", Validators.required],
+        outKgs: [""],
         outPack: [""],
-        outRate: ["",Validators.required],
+        outRate: ["", Validators.required],
         outAmount: [""]
       }),
       inVegitable: this.fb.group({
-        product: ["",Validators.required],
+        product: ["", Validators.required],
         kgs: [""],
-        pack: ["",Validators.required],
+        pack: ["", Validators.required],
         rate: [""],
         amount: [""]
       }),
@@ -126,13 +141,28 @@ export class SalesentryComponent implements OnInit {
       wages: [],
       debit: [],
       rent: [],
-      credit: []
+      credit: [],
+      totalamount: []
     })
 
     this.packForm = this.fb.group({
       'inPackModalArray': this.fb.array([])
     })
 
+  }
+
+  selectEvent(item: any) {
+    console.log(item)
+    // do something with selected item
+  }
+
+  onChangeSearch(search: string) {
+    // fetch remote data from here
+    // And reassign the 'data' which is binded to 'data' property.
+  }
+
+  onFocused(e: any) {
+    // do something
   }
 
   selectBusinessman(value: any): void {
@@ -148,15 +178,19 @@ export class SalesentryComponent implements OnInit {
   }
 
   openModal() {
-    this.currentPackinfo = Number(this.pack.nativeElement.value);
-    for (let i = 0; i < Number(this.currentPackinfo); i++) {
-      const packGroup = this.fb.group({
-        modalPack: ''
-      });
-      this.inPackModalArr.push(packGroup);
+    if (this.product.nativeElement.value == "தக்காளி") {
+      this.disableTextbox = !this.disableTextbox;
     }
-    this.modalOpen = true;
-
+    else {
+      this.currentPackinfo = Number(this.pack.nativeElement.value);
+      for (let i = 0; i < Number(this.currentPackinfo); i++) {
+        const packGroup = this.fb.group({
+          modalPack: ''
+        });
+        this.inPackModalArr.push(packGroup);
+      }
+      this.modalOpen = true;
+    }
   }
 
   closeModal() {
@@ -193,7 +227,7 @@ export class SalesentryComponent implements OnInit {
       control.removeAt(i)
     }
     this.modalOpen = false;
-    console.log(this.packArray);
+
   }
 
   get inVegitable(): FormGroup {
@@ -212,20 +246,8 @@ export class SalesentryComponent implements OnInit {
     return this.outword.get("outProductsArray") as FormArray;
   }
 
-  onBlurOutKgs(): void {
-    // if (this.outKgs.nativeElement.value != 0) {
-    //   this.outPack.nativeElement.value = "";
-    // }
-  }
-
-  onBlurOutPack(): void {
-    // if (this.outPack.nativeElement.value != 0) {
-    //   this.outKgs.nativeElement.value = "";
-    // }
-  }
-
   onBlurOutRate(): void {
-    console.log(this.outVegitable);
+
     if (this.outKgs.nativeElement.value != 0) {
       let outAmount = this.outKgs.nativeElement.value * this.outRate.nativeElement.value;
       this.outAmount.nativeElement.value = outAmount;
@@ -239,53 +261,107 @@ export class SalesentryComponent implements OnInit {
   }
 
   addOutProductsArray() {
+
+    let tomatoAmt = 0;
+    if (this.outProduct.nativeElement.value == "தக்காளி") {
+      tomatoAmt = this.outPack.nativeElement.value * this.outRate.nativeElement.value
+    }
+    else {
+      tomatoAmt = this.outKgs.nativeElement.value * this.outRate.nativeElement.value
+    }
+
     const outProductsGroup = this.fb.group({
       businessMan: [this.businessMan.nativeElement.value],
       outProduct: [this.outProduct.nativeElement.value],
       outKgs: [this.outKgs.nativeElement.value],
       outPack: [this.outPack.nativeElement.value],
       outRate: [this.outRate.nativeElement.value],
-      outAmount: [this.outKgs.nativeElement.value * this.outRate.nativeElement.value]
+      outAmount: tomatoAmt
     })
 
     // step:1
     let inwordArray = this.salesForm.get("inword")?.get("inProductsArray")?.value.filter((v: any) => v.product == this.outProduct.nativeElement.value);
-    let totalInKgs = inwordArray[0].kgs;
-    console.log(totalInKgs);
 
-    //step:2
-    let totalOutKgs = this.outKgs.nativeElement.value;
-    console.log(totalOutKgs);
+    let productName = (inwordArray[0].product);
 
-    //step:3
-    let outwordArray = this.salesForm.get("outword")?.value.outProductsArray;
-    let totalOutwordKgs = outwordArray.filter((v: any) => v.outProduct == this.outProduct.nativeElement.value).map((v: any) => v.outKgs).reduce((a: any, b: any) => parseInt(a) + parseInt(b), 0);
-    totalOutwordKgs = parseInt(totalOutwordKgs) + parseInt(totalOutKgs);
+    if (productName == "தக்காளி") {
+      //step:1
+      let totalInPack = inwordArray[0].pack;
+      console.log(totalInPack);
 
-    //step:4
-    let valid = true;
-    this.validation = true;
-    if (totalOutwordKgs > totalInKgs) {
-      alert("OutKgs exceed than InKgs..");
-      valid = false;
-      this.validation = false;
-    }
+      //step:2
+      let totalOutPack = this.outPack.nativeElement.value;
+      console.log(totalOutPack);
 
-    //step:5
-    if (valid) {
-      this.outProductsArr.push(outProductsGroup);
+      //step:3
+      let outwordArray = this.salesForm.get("outword")?.value.outProductsArray;
 
-      if (parseInt(totalOutwordKgs) == parseInt(totalInKgs)) {
-        let i = this.productsName.findIndex(x => x == this.outProduct.nativeElement.value);
-        this.productsName.splice(i, 1);
+      let totalOutwordPack = outwordArray.filter((v: any) => v.outProduct == this.outProduct.nativeElement.value).map((v: any) => v.outPack).reduce((a: any, b: any) => parseInt(a) + parseInt(b), 0);
+
+      totalOutwordPack = parseInt(totalOutwordPack) + parseInt(totalOutPack);
+
+      //step:4
+      let valid = true;
+      this.validation = true;
+      if (totalOutwordPack > totalInPack) {
+        alert("OutPack exceed than InPack..");
+        valid = false;
+        this.validation = false;
       }
-      this.businessMan.nativeElement.value = "";
-      this.outProduct.nativeElement.value = "";
-      this.outKgs.nativeElement.value = "";
-      this.outPack.nativeElement.value = "";
-      this.outRate.nativeElement.value = "";
-      this.outAmount.nativeElement.value = "";
+
+      //step:5
+      if (valid) {
+        this.outProductsArr.push(outProductsGroup);
+
+        if (parseInt(totalOutwordPack) == parseInt(totalInPack)) {
+          let i = this.productsName.findIndex(x => x == this.outProduct.nativeElement.value);
+          this.productsName.splice(i, 1);
+        }
+      }
+
     }
+    else {
+
+      let totalInKgs = inwordArray[0].kgs;
+      console.log(totalInKgs);
+
+      //step:2
+      let totalOutKgs = this.outKgs.nativeElement.value;
+      console.log(totalOutKgs);
+
+      //step:3
+      let outwordArray = this.salesForm.get("outword")?.value.outProductsArray;
+
+      let totalOutwordKgs = outwordArray.filter((v: any) => v.outProduct == this.outProduct.nativeElement.value).map((v: any) => v.outKgs).reduce((a: any, b: any) => parseInt(a) + parseInt(b), 0);
+
+      totalOutwordKgs = parseInt(totalOutwordKgs) + parseInt(totalOutKgs);
+
+      //step:4
+      let valid = true;
+      this.validation = true;
+      if (totalOutwordKgs > totalInKgs) {
+        alert("OutKgs exceed than InKgs..");
+        valid = false;
+        this.validation = false;
+      }
+
+      //step:5
+      if (valid) {
+        this.outProductsArr.push(outProductsGroup);
+
+        if (parseInt(totalOutwordKgs) == parseInt(totalInKgs)) {
+          let i = this.productsName.findIndex(x => x == this.outProduct.nativeElement.value);
+          this.productsName.splice(i, 1);
+        }
+      }
+    }
+
+    this.businessMan.nativeElement.value = "";
+    this.outProduct.nativeElement.value = "";
+    this.outKgs.nativeElement.value = "";
+    this.outPack.nativeElement.value = "";
+    this.outRate.nativeElement.value = "";
+    this.outAmount.nativeElement.value = "";
 
   }
 
@@ -303,65 +379,111 @@ export class SalesentryComponent implements OnInit {
   }
 
   addInProductsArray() {
-    console.log(this.packArray);
+    let tomatoAmt = 0;
+    if (this.product.nativeElement.value == "தக்காளி") {
+      tomatoAmt = this.pack.nativeElement.value * this.rate.nativeElement.value
+    }
+    else {
+      tomatoAmt = this.kgs.nativeElement.value * this.rate.nativeElement.value
+    }
+
     const inProductsGroup = this.fb.group({
       product: [this.product.nativeElement.value],
       kgs: [this.kgs.nativeElement.value],
       pack: [this.pack.nativeElement.value],
       rate: [this.rate.nativeElement.value],
-      amount: [this.kgs.nativeElement.value * this.rate.nativeElement.value],
+      amount: tomatoAmt,
       packValue: [this.packArray]
     })
-    
+
 
     this.inProductsArr.push(inProductsGroup);
-    console.log(this.inProductsArr);
+
     this.productsName.push(this.product.nativeElement.value);
 
     let comm = Math.round((10 / 100) * this.amount.nativeElement.value);
     let commVal = this.salesForm.get("commision")?.value;
     this.salesForm.get("commision")?.setValue(commVal + comm);
+    this.lessCommision = comm;
 
-    for (let i = 0; i < this.valArray.length; i++) {
+    if (this.product.nativeElement.value == "தக்காளி") {
 
-      if (this.valArray[i] >= 10 && this.valArray[i] <= 20) {
+      let tollTom = 2 * this.pack.nativeElement.value;
+      let tollValTom = this.salesForm.get("toll")?.value;
+      this.salesForm.get("toll")?.setValue(tollValTom + tollTom);
+      this.lessToll = tollTom;
 
-        let totRate = this.rate.nativeElement.value * Number(this.valArray[i]);
+      let wagesTom = 2 * this.pack.nativeElement.value;
+      let wagesValTom = this.salesForm.get("wages")?.value;
+      this.salesForm.get("wages")?.setValue(wagesValTom + wagesTom);
+      this.lessWages = wagesTom;
 
-        let toll = Math.round((1 / 100) * totRate);
-        let tollVal = this.salesForm.get("toll")?.value;
-        this.salesForm.get("toll")?.setValue(tollVal + toll);
+    }
+    else {
+      for (let i = 0; i < this.valArray.length; i++) {
 
-        let wages = Math.round((1 / 100) * totRate);
-        let wagesVal = this.salesForm.get("wages")?.value;
-        this.salesForm.get("wages")?.setValue(wagesVal + wages);
+        if (this.valArray[i] >= 10 && this.valArray[i] <= 20) {
+
+          let totRate = this.rate.nativeElement.value * Number(this.valArray[i]);
+
+          let toll = Math.round((1 / 100) * totRate);
+          let tollVal = this.salesForm.get("toll")?.value;
+          this.salesForm.get("toll")?.setValue(tollVal + toll);
+          this.lessToll = this.lessToll + toll;
+
+          let wages = Math.round((1 / 100) * totRate);
+          let wagesVal = this.salesForm.get("wages")?.value;
+          this.salesForm.get("wages")?.setValue(wagesVal + wages);
+          this.lessWages = this.lessWages + wages;
+
+        }
+
+        else if (this.valArray[i] >= 20 && this.valArray[i] <= 40) {
+          let totRate = this.rate.nativeElement.value * Number(this.valArray[i]);
+
+          let toll = Math.round((3 / 100) * totRate);
+          let tollVal = this.salesForm.get("toll")?.value;
+          this.salesForm.get("toll")?.setValue(tollVal + toll);
+          this.lessToll = this.lessToll + toll;
+
+          let wages = Math.round((3 / 100) * totRate);
+          let wagesVal = this.salesForm.get("wages")?.value;
+          this.salesForm.get("wages")?.setValue(wagesVal + wages);
+          this.lessWages = this.lessWages + wages;
+        }
+
+        else if (this.valArray[i] >= 40) {
+          let totRate = this.rate.nativeElement.value * Number(this.valArray[i]);
+
+          let toll = Math.round((5 / 100) * totRate);
+          let tollVal = this.salesForm.get("toll")?.value;
+          this.salesForm.get("toll")?.setValue(tollVal + toll);
+          this.lessToll = this.lessToll + toll;
+
+          let wages = Math.round((5 / 100) * totRate);
+          let wagesVal = this.salesForm.get("wages")?.value;
+          this.salesForm.get("wages")?.setValue(wagesVal + wages);
+          this.lessWages = this.lessWages + wages;
+        }
 
       }
+    }
 
-      else if (this.valArray[i] >= 20 && this.valArray[i] <= 40) {
-        let totRate = this.rate.nativeElement.value * Number(this.valArray[i]);
+    // let lessCom = this.salesForm.get("commision")?.value;
+    // let lessToll = this.salesForm.get("toll")?.value;
+    // let lessWages = this.salesForm.get("wages")?.value;
 
-        let toll = Math.round((3 / 100) * totRate);
-        let tollVal = this.salesForm.get("toll")?.value;
-        this.salesForm.get("toll")?.setValue(tollVal + toll);
+    let lessAmount = this.amount.nativeElement.value;
+    let totAmt = this.salesForm.get("totalamount")?.value;
 
-        let wages = Math.round((3 / 100) * totRate);
-        let wagesVal = this.salesForm.get("wages")?.value;
-        this.salesForm.get("wages")?.setValue(wagesVal + wages);
-      }
-
-      else if (this.valArray[i] >= 40) {
-        let totRate = this.rate.nativeElement.value * Number(this.valArray[i]);
-
-        let toll = Math.round((5 / 100) * totRate);
-        let tollVal = this.salesForm.get("toll")?.value;
-        this.salesForm.get("toll")?.setValue(tollVal + toll);
-
-        let wages = Math.round((5 / 100) * totRate);
-        let wagesVal = this.salesForm.get("wages")?.value;
-        this.salesForm.get("wages")?.setValue(wagesVal + wages);
-      }
-
+    if (totAmt == null) {
+      totAmt = parseInt(lessAmount) - this.lessCommision - this.lessToll - this.lessWages;
+      this.salesForm.get("totalamount")?.setValue(totAmt);
+    }
+    else {
+      lessAmount = parseInt(lessAmount) - this.lessCommision - this.lessToll - this.lessWages;
+      totAmt = this.salesForm.get("totalamount")?.value;
+      this.salesForm.get("totalamount")?.setValue(parseInt(lessAmount) + parseInt(totAmt));
     }
 
     this.product.nativeElement.value = "";
@@ -369,7 +491,12 @@ export class SalesentryComponent implements OnInit {
     this.pack.nativeElement.value = "";
     this.rate.nativeElement.value = "";
     this.amount.nativeElement.value = "";
-    this.valArray =[];
+    this.valArray = [];
+    this.lessCommision = 0;
+    this.lessToll = 0;
+    this.lessWages = 0;
+    this.disableTextbox = false;
+
 
   }
 
@@ -383,58 +510,72 @@ export class SalesentryComponent implements OnInit {
       let inAmount = this.kgs.nativeElement.value * this.rate.nativeElement.value;
       this.amount.nativeElement.value = inAmount;
     }
-    // else {
-    //   let inAmount = this.rate.nativeElement.value * this.pack.nativeElement.value;
-    //   this.amount.nativeElement.value = inAmount;
-    //  // this.kgs.nativeElement.value = "";
-    // }
-  }
-
-  onBlurInKgs(): void {
-    // if (this.kgs.nativeElement.value != 0) {
-    //   this.pack.nativeElement.value = "";
-    // }
+    else {
+      let inAmount = this.rate.nativeElement.value * this.pack.nativeElement.value;
+      this.amount.nativeElement.value = inAmount;
+      // this.kgs.nativeElement.value = "";
+    }
   }
 
   onBlurInPack(): void {
-    // if (this.pack.nativeElement.value != 0) {
-    //   this.kgs.nativeElement.value = "";
-    // }
+    if (this.product.nativeElement.value == "தக்காளி") {
+
+    }
+    else {
+
+
+    }
+  }
+
+  onBlurRent(): void {
+    let rent = this.salesForm.get("rent")?.value;
+    let lessTotAmt = this.salesForm.get("totalamount")?.value;
+    if (rent != null && lessTotAmt != null) {
+      this.salesForm.get("totalamount")?.setValue(lessTotAmt - rent);
+    }
   }
 
   onBlurInProduct(): void {
-    if (this.product.nativeElement.value == "Tomato") {
-       this.kgs.nativeElement.disabled = true;
-    }
-    else {
-      // this.kgs.nativeElement.disabled = false;
+    if (this.product.nativeElement.value == "தக்காளி") {
+      // this.tomato = false;
+      // var result = document.getElementsByClassName("fa-plus");
+      // (result[0].classList).remove('fa-plus');
+
+      this.modalOpen = false;
+      this.kgs.nativeElement.disabled = true;
     }
   }
 
-  onClickSubmit():any  {
+  onClickSubmit(): any {
+
     console.log(this.inProductsArr, this.outProductsArr);
+
     let productValidation = true;
-    let inword:any = [];
-    let outword:any = [];
-    this.inProductsArr.controls.forEach(function(value, index){
-      (inword[value.value.product])?'':inword[value.value.product]=0;
-      inword[value.value.product] = Number(inword[value.value.product])+Number(value.value.kgs)
+    let inword: any = [];
+    let outword: any = [];
+
+    this.inProductsArr.controls.forEach(function (value, index) {
+      (inword[value.value.product]) ? '' : inword[value.value.product] = 0;
+      inword[value.value.product] = Number(inword[value.value.product]) + Number(value.value.kgs)
     });
-    this.outProductsArr.controls.forEach(function(value, index){
-      (outword[value.value.outProduct])?'':outword[value.value.outProduct]=0;
-      outword[value.value.outProduct] = Number(outword[value.value.outProduct])+Number(value.value.outKgs)
+
+    this.outProductsArr.controls.forEach(function (value, index) {
+      (outword[value.value.outProduct]) ? '' : outword[value.value.outProduct] = 0;
+      outword[value.value.outProduct] = Number(outword[value.value.outProduct]) + Number(value.value.outKgs)
     });
-    if(this.salesForm.get("farmerName")?.value == null && productValidation) {
+
+    if (this.salesForm.get("farmerName")?.value == null && productValidation) {
       alert("Please select farmer");
       productValidation = false;
       return false;
     }
-    if(Object.keys(inword).length > 0) {
-      Object.keys(inword).forEach(function(val:any, ind:any){
+
+    if (Object.keys(inword).length > 0) {
+      Object.keys(inword).forEach(function (val: any, ind: any) {
         console.log(val, ind);
-        if(!outword[val] || inword[val] > outword[val]) {
+        if (!outword[val] || inword[val] > outword[val]) {
           productValidation = false;
-          alert(val +" Kgs not matched with inword entry");
+          alert(val + " Kgs not matched with inword entry");
           return;
         }
       });
@@ -442,10 +583,12 @@ export class SalesentryComponent implements OnInit {
       alert("Please enter values");
       productValidation = false;
     }
-    
-    if(!productValidation) {
+
+    if (!productValidation) {
       return false;
     }
+
+
     let sales = {
       'billno': this.salesForm.get("billno")?.value,
       'date': this.salesForm.get("date")?.value,
@@ -459,11 +602,13 @@ export class SalesentryComponent implements OnInit {
       'refname': this.salesForm.get("refname")?.value,
       'totalamount': this.salesForm.get("totalamount")?.value
     };
+
     let salesentry = {
       'sales': sales,
       'inwards': this.salesForm.get("inword")?.get("inProductsArray")?.value,
       'outwards': this.salesForm.get("outword")?.get("outProductsArray")?.value
     };
+
     this._salesService.saveSalesentry(salesentry).subscribe(data => {
       this.salesmaster.push(salesentry);
       alert("Sales entry added successfully..");
@@ -473,5 +618,9 @@ export class SalesentryComponent implements OnInit {
 
   }
 
-  
+  onClickCancel():void {
+    //this.salesForm.reset(this.salesForm.value);
+    this.salesForm.reset();
+  }
+
 }

@@ -41,10 +41,13 @@ export class TablesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._salesService.getAllTodos().subscribe(data => {
-      this.todosarray = data?.users;
+    alert("success");
+    //console.log(this.todos$)
+    console.log(this.todos$)
+    // this._salesService.getAllTodos().subscribe(data => {
+    //   this.todosarray = data?.users;
       
-    })
+   // })
    
   }
 

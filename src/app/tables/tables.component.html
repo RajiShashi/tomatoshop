@@ -18,7 +18,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let column of todosarray">
+			<tr *ngFor="let column of todos$ | async">
 				<th scope="row">{{ column.id }}</th>
 				<td>{{column.firstName}}</td>
 				<td><ngb-highlight [result]="column.height | number" [term]="service.searchTerm"></ngb-highlight></td>

@@ -46,7 +46,7 @@ function matches(todo: ISalesMaster, term: string, pipe: PipeTransform) {
 @Injectable({
 	providedIn: 'root'
 })
-export class TodosserviceService {
+export class TodosserviceService  {
 
 	todosarray: any[] = [] as any[];
 
@@ -80,11 +80,22 @@ export class TodosserviceService {
 		this._search$.next();
 	}
 
+	// ngOnInit(): void {
+	// 	this._service.getAllTodos().subscribe(data => {
+	// 		this.todosarray = data?.users;
+	// 		this.todosarray = JSON.parse(JSON.stringify(this.todosarray));
+	// 	})
+
+	// }
+
 	getAllTodos() {
+		alert("service");
+		
 		this._service.getAllTodos().subscribe(data => {
 			this.todosarray = data?.users;
 			this.todosarray = JSON.parse(JSON.stringify(this.todosarray));
 		})
+		console.log(this.todosarray);
 	}
 
 	get salesentries$() {

@@ -8,13 +8,20 @@ import { SalesentryComponent } from './salesentry/salesentry.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PackmodelComponent } from './packmodel/packmodel.component';
 import { ReportComponent } from './report/report.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { SalesreportComponent } from './salesreport/salesreport.component';
+import { PurchasereportComponent } from './purchasereport/purchasereport.component';
+import { TallystatementComponent } from './tallystatement/tallystatement.component';
 
 
 @NgModule({
   declarations: [
     SalesentryComponent,
     PackmodelComponent,
-    ReportComponent
+    ReportComponent,
+    SalesreportComponent,
+    PurchasereportComponent,
+    TallystatementComponent
   ],
   entryComponents: [
     PackmodelComponent
@@ -25,6 +32,7 @@ import { ReportComponent } from './report/report.component';
     ReactiveFormsModule,
     SalesentryRoutingModule,
     NgbModule,
+    AutocompleteLibModule
   ]
 })
 export class SalesentryModule { }
