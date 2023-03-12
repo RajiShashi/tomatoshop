@@ -10,22 +10,35 @@ async function createsalesmaster(request){
      (date, 
       name, 
       credit, 
+      debit,
       reason, 
       billdate,
       billno,
       type,
       billbook,
-      salesman) 
+      salesman,
+      amount,
+      commission,
+      rent,
+      cooly,
+      sungam
+      ) 
     VALUES 
     ('${request.sales.date}',
      '${request.sales.customerid}',
-     '${request.sales.totalamount}', 
+     '${request.sales.credit}', 
+     '${request.sales.debit}', 
      'INWORD',
      '${request.sales.date}', 
      '${request.sales.billno}',
      'FORMER',
      'BILL BOOK', 
-     'SALES MAN'
+     'SALES MAN',
+     '${request.sales.totalamount}', 
+     '${request.sales.commission}',
+    '${request.sales.rent}',
+    '${request.sales.wages}',
+    '${request.sales.toll}'
      )`
   );
 
@@ -77,6 +90,28 @@ async function createsalesmaster(request){
       '1'
       )`
     );
+
+    const purchaseid = result_inwords.insertId;
+    for(var j=0;j<request.inwards[i].packValue.length;j++) {
+      const result_pack = await db.query(
+        `INSERT INTO packpurchase 
+         (date,
+          refno, 
+          product, 
+          qty,
+          sno
+         )
+         VALUES 
+         ( '${request.sales.date}',
+           '${purchaseid}',
+           '${request.inwards[i].product}',
+           '${request.inwards[i].packValue[j].modalPack}',
+           '${j+1}'
+         )`
+      ); 
+             
+    }
+
   }
 
 

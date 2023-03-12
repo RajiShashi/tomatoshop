@@ -72,6 +72,7 @@ export class SalesentryComponent implements OnInit {
   lessToll: number = 0;
   lessWages: number = 0;
   lessCommision: number = 0;
+  totalAmount: any = 0;
 
   constructor(@Inject(DOCUMENT) private _document: any, private fb: FormBuilder, private _salesService: SalesentryserviceService) {
     this.window = this._document.defaultView;
@@ -499,6 +500,7 @@ export class SalesentryComponent implements OnInit {
       totAmt = this.salesForm.get("totalamount")?.value;
       this.salesForm.get("totalamount")?.setValue(parseInt(lessAmount) + parseInt(totAmt));
     }
+    this.totalAmount = this.salesForm.get("totalamount")?.value;
 
     this.product.nativeElement.value = "";
     this.kgs.nativeElement.value = "";
@@ -547,6 +549,8 @@ export class SalesentryComponent implements OnInit {
     if (rent != null && lessTotAmt != null) {
       this.salesForm.get("totalamount")?.setValue(lessTotAmt - rent);
     }
+    this.totalAmount = this.salesForm.get("totalamount")?.value;
+
   }
 
   onBlurInProduct(): void {
@@ -616,7 +620,7 @@ export class SalesentryComponent implements OnInit {
       'billno': this.salesForm.get("billno")?.value,
       'date': this.salesForm.get("date")?.value,
       'customerid': this.salesForm.get("farmerName")?.value,
-      'commision': this.salesForm.get("commision")?.value,
+      'commission': this.salesForm.get("commision")?.value,
       'rent': this.salesForm.get("rent")?.value,
       'credit': this.salesForm.get("credit")?.value,
       'wages': this.salesForm.get("wages")?.value,
@@ -643,7 +647,7 @@ export class SalesentryComponent implements OnInit {
 
   onClickCancel():void {
     //this.salesForm.reset(this.salesForm.value);
-    this.salesForm.reset();
+    window.location.reload();
   }
 
 }

@@ -126,7 +126,7 @@
         <br>
         <div class="row">
             <div class="col col-2">
-                <label for="commision">Commision:</label>
+                <label for="commision">Commission:</label>
                 <input type="number" formControlName="commision" disabled>
             </div>
             <div class="col col-2">
@@ -138,8 +138,9 @@
                 <input type="number" formControlName="wages" disabled>
             </div>
             <div class="col col-2">
-                <label for="totalamount">TotalAmount:</label>
-                <input type="number" formControlName="totalamount" disabled>
+                <label for="totalamount"><h4><strong>TotalAmount:</strong></h4></label>
+                
+                <h2 formControlName="totalamount"><strong>{{totalAmount}}</strong></h2>
             </div>
         </div>
         <div class="row">
