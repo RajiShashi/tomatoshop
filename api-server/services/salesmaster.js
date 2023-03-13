@@ -151,20 +151,48 @@ async function createsalesmaster(request){
 
 async function getSalesId(id) {
   let condition = '';
+  let data = '';
   if(id==0){
     condition = 'ORDER BY billno DESC LIMIT 1';
+    const rows = await db.query(
+      `SELECT * FROM masters ${condition}`
+    );
+    data = helper.emptyOrRows(rows);
   } else {
     condition = 'where id='+id;
-  }
+    const editrows = await db.query(
+      `SELECT * FROM masters ${condition}`
+    );
+    const masterdata = helper.emptyOrRows(editrows);
 
-  const rows = await db.query(
-    `SELECT * FROM masters ${condition}`
-  );
+    condition = 'where refno='+id;
+    const purcharows = await db.query(
+      `SELECT * FROM purchase ${condition}`
+    );
+    let purchasedata = helper.emptyOrRows(purcharows);
+    let packdata = '';
+    for(var i=0;i<purchasedata.length;i++) {
+      const packrows = await db.query(
+        `SELECT * FROM 	packpurchase ${condition}`
+      );
+      packdata = helper.emptyOrRows(packrows);
+      purchasedata[i]['packValue'] = packdata;
 
-  const data = helper.emptyOrRows(rows);
-  return {
-     data
+    }
+
+    const salesrows = await db.query(
+      `SELECT * FROM sales ${condition}`
+    );
+    const salesdata = helper.emptyOrRows(salesrows);
+
+    data = {
+      sales: salesdata[0],
+      inword: purchasedata,
+      outowrd: salesdata
+    }
   }
+  return data;
+
 }
 
 

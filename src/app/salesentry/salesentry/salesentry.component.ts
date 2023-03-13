@@ -95,8 +95,8 @@ export class SalesentryComponent implements OnInit {
 
     this._salesService.getBillno(0).subscribe(res => {
      let billnoval = 0; 
-     if(res['data'][0] && res['data'][0].billno) {
-      billnoval = res['data'][0].billno;
+     if(res[0] && res[0].billno) {
+      billnoval = res[0].billno;
      }
       this.salesForm.controls['billno'].setValue(Number(billnoval) + 1);
     })
@@ -108,6 +108,10 @@ export class SalesentryComponent implements OnInit {
       });
     })
 
+    this._salesService.getPurchaseDetail(2).subscribe(res => {
+      console.log(res);
+      
+     })
 
     const today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');

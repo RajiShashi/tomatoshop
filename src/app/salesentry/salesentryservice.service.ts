@@ -51,4 +51,8 @@ export class SalesentryserviceService {
     return this._httpClient.get<any>(this._productUrl)
   }
 
+  getPurchaseDetail(id: number): Observable<any> {
+    return this._httpClient.get<any>(this._salesurl + "/" + id)
+  }
+
 }
