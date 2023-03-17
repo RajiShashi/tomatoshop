@@ -27,11 +27,11 @@ async function createsalesmaster(request) {
       message = 'Salesmaster created successfully';
     }
     // Inwards data update
+    await db.query(`DELETE FROM purchase where refno=${request.sales['id']}`);
+    await db.query(`DELETE FROM sales where refno=${request.sales['id']}`);
+
     for (var i = 0; i < request.inwards.length; i++) {
-      if (request.inwards[i].id) {
-        await db.query(`DELETE FROM purchase where id=${request.inwards[i].id}`);
-        await db.query(`DELETE FROM purchase where refno=${request.inwards[i].id}`);
-      }
+      
       const result_inwords = await db.query(
         `INSERT INTO purchase 
        (date,
@@ -92,9 +92,6 @@ async function createsalesmaster(request) {
     }
 
     for (var i = 0; i < request.outwards.length; i++) {
-      if (request.outwards[i].id) {
-        await db.query(`DELETE FROM sales where id=${request.outwards[i].id}`);
-      }
       const result_outwards = await db.query(
         `INSERT INTO sales 
          (date,
@@ -175,10 +172,7 @@ async function createsalesmaster(request) {
     }
 
     const salesid = result.insertId;
-    const getrefno = await db.query(
-      `SELECT refno from purchase ORDER BY refno DESC LIMIT 1`
-    );
-
+    
     //const refno = getrefno[0].refno+1;
     for (var i = 0; i < request.inwards.length; i++) {
       const result_inwords = await db.query(
@@ -313,7 +307,7 @@ async function getSalesId(id) {
     const salesdata = helper.emptyOrRows(salesrows);
 
     data = {
-      sales: salesdata[0],
+      sales: masterdata[0],
       inwords: purchasedata,
       outowrds: salesdata
     }
