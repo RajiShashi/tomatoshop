@@ -14,7 +14,7 @@
             <div class="col col-6">
                 <label for="customerid">CustomerName</label><br />
                 <select placeholder="Farmer" #customerName formControlName="farmerName">
-                    <option>Select Farmer</option>
+                    <!-- <option>Select Farmer</option> -->
                     <option *ngFor="let farmer of farmerType">
                         {{farmer.pname}}
                     </option>
@@ -139,8 +139,8 @@
             </div>
             <div class="col col-2">
                 <label for="totalamount"><h4><strong>TotalAmount:</strong></h4></label>
-                
-                <h2 formControlName="totalamount"><strong>{{totalAmount}}</strong></h2>
+                <input type="number" formControlName="totalamount" disabled>
+                <!-- <h2 formControlName="totalamount"><strong>{{totalAmount}}</strong></h2> -->
             </div>
         </div>
         <div class="row">
@@ -275,7 +275,7 @@
                         <ng-container *ngFor="let pack of inPackModalArr.controls; let i = index">
                             <div class="row" [formGroup]="pack">
                                 <div class="col col-4">
-                                    {{i+1}}:&nbsp;&nbsp;<input type="text" formControlName="modalPack">
+                                    {{i+1}}:&nbsp;&nbsp;<input type="text" formControlName="qty">
                                 </div>
                             </div>
                         </ng-container>

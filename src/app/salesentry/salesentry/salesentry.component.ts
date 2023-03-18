@@ -6,6 +6,7 @@ import { ICustomers } from 'src/app/customers/ICustomers';
 import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-salesentry',
@@ -28,14 +29,6 @@ export class SalesentryComponent implements OnInit {
   @ViewChild("outPack") outPack!: ElementRef;
   @ViewChild("outRate") outRate!: ElementRef;
   @ViewChild("outAmount") outAmount!: ElementRef;
-
-  // products = [
-  //   { name: 'Tomato' },
-  //   { name: 'Drumstick' },
-  //   { name: 'GreenChilly' },
-  //   { name: 'GreenPeas' },
-  //   { name: 'Brinjal' },
-  // ];
 
   productsName: any[] = [];
   getInArray: any[] = [];
@@ -74,13 +67,21 @@ export class SalesentryComponent implements OnInit {
   lessCommision: number = 0;
   totalAmount: any = 0;
 
-  constructor(@Inject(DOCUMENT) private _document: any, private fb: FormBuilder, private _salesService: SalesentryserviceService) {
+  route: string = "";
+  id!: number;
+  purchaseInword!: any;
+  purchaseOutword!: any;
+  purchaseSales!: any;
+
+  constructor(@Inject(DOCUMENT) private _document: any, private fb: FormBuilder, private _salesService: SalesentryserviceService, private _activateRoute: ActivatedRoute) {
     this.window = this._document.defaultView;
     console.log('document', _document)
   }
   //constructor(private _document: @Inject(DOCUMENT) , private fb: FormBuilder, private _salesService: SalesentryserviceService) { }
 
   ngOnInit(): void {
+
+
 
     this._salesService.getAllCustomer().subscribe(c => {
       this.customers = c?.data;
@@ -94,10 +95,10 @@ export class SalesentryComponent implements OnInit {
 
 
     this._salesService.getBillno(0).subscribe(res => {
-     let billnoval = 0; 
-     if(res[0] && res[0].billno) {
-      billnoval = res[0].billno;
-     }
+      let billnoval = 0;
+      if (res[0] && res[0].billno) {
+        billnoval = res[0].billno;
+      }
       this.salesForm.controls['billno'].setValue(Number(billnoval) + 1);
     })
 
@@ -110,8 +111,8 @@ export class SalesentryComponent implements OnInit {
 
     this._salesService.getPurchaseDetail(2).subscribe(res => {
       console.log(res);
-      
-     })
+
+    })
 
     const today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
@@ -160,6 +161,64 @@ export class SalesentryComponent implements OnInit {
 
   }
 
+  
+
+
+  ngAfterViewInit(): void {
+
+    this.id = this._activateRoute.snapshot.params["route"];
+    if (String(this.id) != "") {
+      this._salesService.getPurchaseDetail(this.id).subscribe(data => {
+        if (data) {
+          this.purchaseInword = data.inwords;
+          this.purchaseOutword = data.outowrds;
+          this.purchaseSales = data.sales;
+
+          this.salesForm.get("billno")?.setValue(this.purchaseSales.billno);
+          this.salesForm.get("date")?.setValue(this.purchaseSales.date);
+          this.salesForm.get("farmerName")?.patchValue(this.purchaseSales.name);
+
+          this.salesForm.get("commision")?.patchValue(this.purchaseSales.commission);
+          this.salesForm.get("toll")?.patchValue(this.purchaseSales.sungam);
+          this.salesForm.get("wages")?.patchValue(this.purchaseSales.cooly);
+          this.salesForm.get("rent")?.patchValue(this.purchaseSales.rent);
+          this.salesForm.get("debit")?.patchValue(this.purchaseSales.debit);
+          this.salesForm.get("credit")?.patchValue(this.purchaseSales.credit);
+          this.salesForm.get("totalamount")?.patchValue(this.purchaseSales.amount);
+
+          data.inwords.forEach((x: any) => {
+            const inProductsGroup = this.fb.group({
+              product: [x.pname],
+              kgs: [x.kgs],
+              pack: [x.pack],
+              rate: [x.rate],
+              amount: [x.amount],
+              packValue: [x.packValue]
+            })
+
+
+            this.inProductsArr.push(inProductsGroup);
+          })
+
+          data.outowrds.forEach((x: any) => {
+            const outProductsGroup = this.fb.group({
+              businessMan: [x.businessmen],
+              outProduct: [x.pname],
+              outKgs: [x.kgs],
+              outPack: [x.pack],
+              outRate: [x.rate],
+              outAmount: [x.amount]
+            })
+
+            this.outProductsArr.push(outProductsGroup);
+          })
+          
+        }
+      })
+    }
+
+  }
+
   selectEvent(item: any) {
     console.log(item)
     // do something with selected item
@@ -176,16 +235,15 @@ export class SalesentryComponent implements OnInit {
 
   selectBusinessman(value: any): void {
     this.customerid = value;
-    
   }
 
   selectProduct() {
-   if(this.product.nativeElement.value == 'தக்காளி') {
-     this.disableTextbox = false;
-   } else {
-    this.disableTextbox = true;;
-   }
-    
+    if (this.product.nativeElement.value == 'தக்காளி') {
+      this.disableTextbox = false;
+    } else {
+      this.disableTextbox = true;;
+    }
+
   }
 
   onSelected(value: any): void {
@@ -204,7 +262,7 @@ export class SalesentryComponent implements OnInit {
       this.currentPackinfo = Number(this.pack.nativeElement.value);
       for (let i = 0; i < Number(this.currentPackinfo); i++) {
         const packGroup = this.fb.group({
-          modalPack: ''
+          qty: ''
         });
         this.inPackModalArr.push(packGroup);
       }
@@ -224,14 +282,13 @@ export class SalesentryComponent implements OnInit {
   }
 
   saveModel() {
-    // let valArray = [];
-    //this.pack.nativeElement.value = "";
+
     this.valArray = [];
     this.packArray = this.packForm.get("inPackModalArray")?.value;
     console.log(this.packArray);
 
     for (let i = 0; i < this.packArray.length; i++) {
-      this.valArray.push(this.packArray[i].modalPack)
+      this.valArray.push(this.packArray[i].qty)
     }
 
     var packSum = this.valArray.reduce((acc, cur) => acc + Number(cur), 0)
@@ -541,10 +598,7 @@ export class SalesentryComponent implements OnInit {
     if (this.product.nativeElement.value == "தக்காளி") {
 
     }
-    else {
 
-
-    }
   }
 
   onBlurRent(): void {
@@ -578,7 +632,7 @@ export class SalesentryComponent implements OnInit {
 
     this.inProductsArr.controls.forEach(function (value, index) {
       (inword[value.value.product]) ? '' : inword[value.value.product] = 0;
-      if(value.value.product == 'தக்காளி') {
+      if (value.value.product == 'தக்காளி') {
         inword[value.value.product] = Number(inword[value.value.product]) + Number(value.value.pack)
       } else {
         inword[value.value.product] = Number(inword[value.value.product]) + Number(value.value.kgs)
@@ -587,12 +641,12 @@ export class SalesentryComponent implements OnInit {
 
     this.outProductsArr.controls.forEach(function (value, index) {
       (outword[value.value.outProduct]) ? '' : outword[value.value.outProduct] = 0;
-      if(value.value.outProduct == 'தக்காளி') {
+      if (value.value.outProduct == 'தக்காளி') {
         outword[value.value.outProduct] = Number(outword[value.value.outProduct]) + Number(value.value.outPack)
       } else {
         outword[value.value.outProduct] = Number(outword[value.value.outProduct]) + Number(value.value.outKgs)
       }
-      
+
     });
 
     if (this.salesForm.get("farmerName")?.value == null && productValidation) {
@@ -618,9 +672,9 @@ export class SalesentryComponent implements OnInit {
     if (!productValidation) {
       return false;
     }
-
-
+    
     let sales = {
+      'id':(this.id)?this.id:0,
       'billno': this.salesForm.get("billno")?.value,
       'date': this.salesForm.get("date")?.value,
       'customerid': this.salesForm.get("farmerName")?.value,
@@ -631,15 +685,18 @@ export class SalesentryComponent implements OnInit {
       'toll': this.salesForm.get("toll")?.value,
       'debit': this.salesForm.get("debit")?.value,
       'refname': this.salesForm.get("refname")?.value,
-      'totalamount': this.salesForm.get("totalamount")?.value
-    };
+      'totalamount': this.salesForm.get("totalamount")?.value,
+     
 
+    };
+    
     let salesentry = {
       'sales': sales,
       'inwards': this.salesForm.get("inword")?.get("inProductsArray")?.value,
       'outwards': this.salesForm.get("outword")?.get("outProductsArray")?.value
     };
-
+    console.log(salesentry);
+// return;
     this._salesService.saveSalesentry(salesentry).subscribe(data => {
       this.salesmaster.push(salesentry);
       alert("Sales entry added successfully..");
@@ -649,9 +706,12 @@ export class SalesentryComponent implements OnInit {
 
   }
 
-  onClickCancel():void {
+  onClickCancel(): void {
     //this.salesForm.reset(this.salesForm.value);
     window.location.reload();
   }
 
+
 }
+
+

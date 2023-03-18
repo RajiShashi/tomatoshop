@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SalesentryserviceService } from '../salesentryservice.service';
+import { NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-purchasereport',
@@ -7,9 +9,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PurchasereportComponent implements OnInit {
 
-  constructor() { }
+  page = 1;
+  pageSize = 4;
+  collectionSize!: any;
+  countries!: any[];
+
+  inwordDatas: any[] = [];
+
+  constructor(private _salesEntryService: SalesentryserviceService) {
+    this.refreshCountries();
+  }
 
   ngOnInit(): void {
+    this._salesEntryService.getAllInwardDetails().subscribe(data => {
+    
+      this.inwordDatas = data.data;
+      console.log(this.inwordDatas);
+     // this.collectionSize = this.inwordDatas.length;
+    })
+
+  }
+
+  refreshCountries() {
+    this.inwordDatas = this.inwordDatas.map((data, i) => ({ id: i + 1, ...data })).slice(
+      (this.page - 1) * this.pageSize,
+      (this.page - 1) * this.pageSize + this.pageSize,
+    );
   }
 
 }

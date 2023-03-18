@@ -8,6 +8,7 @@ import { TallystatementComponent } from './tallystatement/tallystatement.compone
 
 const routes: Routes = [
   { path: 'sales', component: SalesentryComponent },
+  { path: "sales/:route", component: SalesentryComponent },
   { path: 'reports', component: ReportComponent },
   { path: 'salesreport', component: SalesreportComponent },
   { path: 'purchasereport', component: PurchasereportComponent },
