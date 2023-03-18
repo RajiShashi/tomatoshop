@@ -17,7 +17,8 @@ async function createsalesmaster(request) {
         commission = '${request.sales.commission}',
         rent ='${request.sales.rent}',
         cooly = '${request.sales.wages}',
-        sungam = '${request.sales.toll}'
+        sungam = '${request.sales.toll}' 
+        where id = ${salesid}
       `
     );
 
@@ -29,6 +30,7 @@ async function createsalesmaster(request) {
     // Inwards data update
     await db.query(`DELETE FROM purchase where refno=${request.sales['id']}`);
     await db.query(`DELETE FROM sales where refno=${request.sales['id']}`);
+    await db.query(`DELETE FROM packpurchase where refno=${request.sales['id']}`);
 
     for (var i = 0; i < request.inwards.length; i++) {
       
@@ -73,6 +75,7 @@ async function createsalesmaster(request) {
         const result_pack = await db.query(
           `INSERT INTO packpurchase 
            (date,
+            purchaseid,
             refno, 
             product, 
             qty,
@@ -81,8 +84,9 @@ async function createsalesmaster(request) {
            VALUES 
            ( '${request.sales.date}',
              '${purchaseid}',
+             '${salesid}',
              '${request.inwards[i].product}',
-             '${request.inwards[i].packValue[j].modalPack}',
+             '${request.inwards[i].packValue[j].qty}',
              '${j + 1}'
            )`
         );
@@ -216,6 +220,7 @@ async function createsalesmaster(request) {
         const result_pack = await db.query(
           `INSERT INTO packpurchase 
          (date,
+          purchaseid,
           refno, 
           product, 
           qty,
@@ -224,8 +229,9 @@ async function createsalesmaster(request) {
          VALUES 
          ( '${request.sales.date}',
            '${purchaseid}',
+           '${salesid}',
            '${request.inwards[i].product}',
-           '${request.inwards[i].packValue[j].modalPack}',
+           '${request.inwards[i].packValue[j].qty}',
            '${j + 1}'
          )`
         );

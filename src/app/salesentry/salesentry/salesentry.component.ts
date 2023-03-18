@@ -109,11 +109,7 @@ export class SalesentryComponent implements OnInit {
       });
     })
 
-    this._salesService.getPurchaseDetail(2).subscribe(res => {
-      console.log(res);
-
-    })
-
+    
     const today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
