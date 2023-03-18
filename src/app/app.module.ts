@@ -15,11 +15,13 @@ import { TablesComponent } from './tables/tables.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     NavbarComponent
+
   ],
   imports: [
     BrowserModule,
@@ -32,6 +34,7 @@ import { TablesComponent } from './tables/tables.component';
     HttpClientModule,
     NgbModule,
     NgbPaginationModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

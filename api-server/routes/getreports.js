@@ -22,4 +22,14 @@ router.get('/outward', async function(req, res, next) {
     }
 });
 
+router.get('/outward/:id', async function(req, res, next) {
+    try {
+        console.log(req.params);
+        res.json(await getreport.getoutward(req.params.id));
+    } catch (err) {
+        console.error(`Error while getting sales entry `, err.message);
+        next(err);
+    }
+});
+
 module.exports = router;

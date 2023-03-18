@@ -12,7 +12,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { SalesreportComponent } from './salesreport/salesreport.component';
 import { PurchasereportComponent } from './purchasereport/purchasereport.component';
 import { TallystatementComponent } from './tallystatement/tallystatement.component';
-
+import { SalesmanreportComponent } from './salesmanreport/salesmanreport.component';
+import { DataTablesModule, DataTableDirective } from "angular-datatables";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TallystatementComponent } from './tallystatement/tallystatement.compone
     ReportComponent,
     SalesreportComponent,
     PurchasereportComponent,
-    TallystatementComponent
+    TallystatementComponent,
+    SalesmanreportComponent
   ],
   entryComponents: [
     PackmodelComponent
@@ -32,7 +34,8 @@ import { TallystatementComponent } from './tallystatement/tallystatement.compone
     ReactiveFormsModule,
     SalesentryRoutingModule,
     NgbModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    DataTablesModule
   ]
 })
 export class SalesentryModule { }

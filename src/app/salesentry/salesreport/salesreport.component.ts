@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SalesentryserviceService } from '../salesentryservice.service';
+
 
 @Component({
   selector: 'app-salesreport',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SalesreportComponent implements OnInit {
 
-  constructor() { }
+  dtOptions: DataTables.Settings = {};
+  salesData: any = [];
+  
+  constructor(private _salesService: SalesentryserviceService) { }
 
+  
   ngOnInit(): void {
+    this.dtOptions = {
+      pagingType: 'full_numbers'
+    };
+    
+    this._salesService.getSalesDetail('').subscribe(res => {
+      this.salesData = res;
+      
+     })
   }
 
 }

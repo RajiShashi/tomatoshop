@@ -1,0 +1,31 @@
+<div class="container-fluid">
+    <h3>Salesman Report</h3>
+<br/>
+<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="salesData.length">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Date</th>
+        <th>Business Man</th>
+        <th>Customer Name</th>
+        <th>Product Name</th>
+        <th>Kg</th>
+        <th>Pack</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr *ngFor="let data of salesData; index as i;">
+        <td>{{i+1}}</td>
+        <td>{{data.date}}</td>
+        <td>{{data.businessmen}}</td>
+        <td>{{data.cname}}</td>
+        <td>{{data.pname}}</td>
+        <td>{{data.kgs}}</td>
+        <td>{{data.pack}}</td>
+        <td>{{data.amount}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>  

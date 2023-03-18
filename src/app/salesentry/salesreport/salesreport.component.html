@@ -1,1 +1,22 @@
-<p>salesreport works!</p>
+<div class="container-fluid">
+  <h3>Sales Report</h3>
+  <br/>
+<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="salesData.length">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Business Man</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody  >
+      
+      <tr *ngFor="let data of salesData; index as i;">
+        <td>{{i+1}}</td>
+        <td><a  routerLink="/salesmanreport/{{data.businessmen}}">{{data.businessmen}}</a></td>
+        <td>{{data.totalamount}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>  
+  

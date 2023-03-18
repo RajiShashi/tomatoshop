@@ -12,6 +12,7 @@ export class SalesentryserviceService {
   private _salesurl = "http://localhost:3000/salesmaster";
   private _todos = "https://dummyjson.com/users";
   private _productUrl = "http://localhost:3000/productlist";
+  private _salesdetailUrl = "http://localhost:3000/getreports/outward";
   
   constructor(private _httpClient: HttpClient) { }
 
@@ -53,6 +54,14 @@ export class SalesentryserviceService {
 
   getPurchaseDetail(id: number): Observable<any> {
     return this._httpClient.get<any>(this._salesurl + "/" + id)
+  }
+
+  getSalesDetail(val:any): Observable<any> {
+    if(val && val != '') {
+      return this._httpClient.get<any>(this._salesdetailUrl + "/" + val)  
+    } else {
+      return this._httpClient.get<any>(this._salesdetailUrl )
+    }
   }
 
 }

@@ -76,7 +76,7 @@ export class SalesentryComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) private _document: any, private fb: FormBuilder, private _salesService: SalesentryserviceService) {
     this.window = this._document.defaultView;
-    console.log('document', _document)
+    
   }
   //constructor(private _document: @Inject(DOCUMENT) , private fb: FormBuilder, private _salesService: SalesentryserviceService) { }
 
