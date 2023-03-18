@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SalesentryserviceService } from '../salesentryservice.service';
 
-
 @Component({
   selector: 'app-salesreport',
   templateUrl: './salesreport.component.html',

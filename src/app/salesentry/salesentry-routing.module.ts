@@ -9,6 +9,7 @@ import { SalesmanreportComponent } from './salesmanreport/salesmanreport.compone
 
 const routes: Routes = [
   { path: 'sales', component: SalesentryComponent },
+  { path: "sales/:route", component: SalesentryComponent },
   { path: 'reports', component: ReportComponent },
   { path: 'salesreport', component: SalesreportComponent },
   { path: 'salesmanreport/:id', component: SalesmanreportComponent },

@@ -91,10 +91,10 @@ export class TodosserviceService  {
 	getAllTodos() {
 		alert("service");
 		
-		this._service.getAllTodos().subscribe(data => {
-			this.todosarray = data?.users;
-			this.todosarray = JSON.parse(JSON.stringify(this.todosarray));
-		})
+		// this._service.getAllTodos().subscribe(data => {
+		// 	this.todosarray = data?.users;
+		// 	this.todosarray = JSON.parse(JSON.stringify(this.todosarray));
+		// })
 		console.log(this.todosarray);
 	}
 
