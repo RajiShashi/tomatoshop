@@ -12,13 +12,10 @@ export class SalesentryserviceService {
   private _salesurl = "http://localhost:3000/salesmaster";
   private _todos = "https://dummyjson.com/todos";
   private _productUrl = "http://localhost:3000/productlist";
-<<<<<<< HEAD
   private _salesdetailUrl = "http://localhost:3000/getreports/outward";
-=======
   private _purchaseUrl ="http://localhost:3000/getreports/inward";
   private _salesUrl = "http://localhost:3000/getreports/outward";
 
->>>>>>> 0b4c72874025ad329532ac68f35b31dbbbf8b317
   
   constructor(private _httpClient: HttpClient) { }
 
