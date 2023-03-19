@@ -15,12 +15,12 @@ async function getinward(page = 1){
   }
 }
 
-async function getoutward(id){
+async function getoutward(param){
   let rows = '';
-  console.log(id);
-  if(id) {
+ 
+  if(param.bman) {
      rows = await db.query(
-      `SELECT * FROM sales where businessmen = '${id}'`
+      `SELECT * FROM sales where businessmen = '${param.bman}'`
     );
   } else {
      rows = await db.query(

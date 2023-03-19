@@ -15,7 +15,7 @@ router.get('/inward', async function(req, res, next) {
 
 router.get('/outward', async function(req, res, next) {
     try {
-        res.json(await getreport.getoutward());
+        res.json(await getreport.getoutward(req.query));
     } catch (err) {
         console.error(`Error while getting sales entry `, err.message);
         next(err);
@@ -24,8 +24,7 @@ router.get('/outward', async function(req, res, next) {
 
 router.get('/outward/:id', async function(req, res, next) {
     try {
-        console.log(req.params);
-        res.json(await getreport.getoutward(req.params.id));
+        res.json(await getreport.getoutward(req));
     } catch (err) {
         console.error(`Error while getting sales entry `, err.message);
         next(err);

@@ -61,7 +61,7 @@ export class SalesentryserviceService {
 
   getSalesDetail(val:any): Observable<any> {
     if(val && val != '') {
-      return this._httpClient.get<any>(this._salesdetailUrl + "/" + val)  
+      return this._httpClient.get<any>(this._salesdetailUrl + "?" + val)  
     } else {
       return this._httpClient.get<any>(this._salesdetailUrl )
     }

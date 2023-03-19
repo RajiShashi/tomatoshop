@@ -22,7 +22,7 @@ export class SalesmanreportComponent implements OnInit {
     this.queryparam = this.route.snapshot.paramMap.get('id');
     console.log(this.queryparam);
     let param = 'bman='+this.queryparam;
-    this._salesService.getSalesDetail(this.queryparam).subscribe(res => {
+    this._salesService.getSalesDetail(param).subscribe(res => {
       this.salesData = res;
       
      })

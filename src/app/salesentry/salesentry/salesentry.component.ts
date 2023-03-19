@@ -255,13 +255,19 @@ export class SalesentryComponent implements OnInit {
       //this.disableTextbox = !this.disableTextbox;
     }
     else {
+      const control = <FormArray>this.packForm.controls['inPackModalArray'];
       this.currentPackinfo = Number(this.pack.nativeElement.value);
-      for (let i = 0; i < Number(this.currentPackinfo); i++) {
-        const packGroup = this.fb.group({
-          qty: ''
-        });
-        this.inPackModalArr.push(packGroup);
-      }
+      if(control.length != this.currentPackinfo) {
+        for (let i = control.length - 1; i >= 0; i--) {
+          control.removeAt(i)
+        }
+        for (let i = 0; i < Number(this.currentPackinfo); i++) {
+          const packGroup = this.fb.group({
+            qty: ''
+          });
+          this.inPackModalArr.push(packGroup);
+        }
+      } 
       this.modalOpen = true;
     }
   }
@@ -291,13 +297,10 @@ export class SalesentryComponent implements OnInit {
     this.kgs.nativeElement.value = packSum;
 
 
-    var packValue = this.valArray.join(',');
+    //var packValue = this.valArray.join(',');
     //this.pack.nativeElement.value = packValue;
 
-    const control = <FormArray>this.packForm.controls['inPackModalArray'];
-    for (let i = control.length - 1; i >= 0; i--) {
-      control.removeAt(i)
-    }
+    
     this.modalOpen = false;
 
   }
@@ -468,6 +471,11 @@ export class SalesentryComponent implements OnInit {
       packValue: [this.packArray]
     })
 
+    // remove packarray
+    const control = <FormArray>this.packForm.controls['inPackModalArray'];
+    for (let i = control.length - 1; i >= 0; i--) {
+      control.removeAt(i)
+    }
 
     this.inProductsArr.push(inProductsGroup);
 
