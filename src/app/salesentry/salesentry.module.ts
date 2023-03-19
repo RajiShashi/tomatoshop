@@ -13,7 +13,7 @@ import { SalesreportComponent } from './salesreport/salesreport.component';
 import { PurchasereportComponent } from './purchasereport/purchasereport.component';
 import { TallystatementComponent } from './tallystatement/tallystatement.component';
 import { SalesmanreportComponent } from './salesmanreport/salesmanreport.component';
-import { DataTablesModule, DataTableDirective } from "angular-datatables";
+import { DataTablesModule } from "angular-datatables";
 
 @NgModule({
   declarations: [

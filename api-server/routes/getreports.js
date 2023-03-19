@@ -31,4 +31,13 @@ router.get('/outward/:id', async function(req, res, next) {
     }
 });
 
+router.get('/tallydata', async function(req, res, next) {
+    try {
+        res.json(await getreport.getTallyData(req.query));
+    } catch (err) {
+        console.error(`Error while getting sales entry `, err.message);
+        next(err);
+    }
+});
+
 module.exports = router;

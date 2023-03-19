@@ -11,8 +11,8 @@ import { SalesentryModule } from './salesentry/salesentry.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TablesComponent } from './tables/tables.component';
-
-
+import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 
 
@@ -33,8 +33,9 @@ import { TablesComponent } from './tables/tables.component';
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
-    NgbPaginationModule
-    
+    NgbPaginationModule,
+    NgbDatepickerModule,
+    ButtonsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

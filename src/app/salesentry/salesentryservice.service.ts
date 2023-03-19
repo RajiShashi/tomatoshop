@@ -15,7 +15,7 @@ export class SalesentryserviceService {
   private _salesdetailUrl = "http://localhost:3000/getreports/outward";
   private _purchaseUrl ="http://localhost:3000/getreports/inward";
   private _salesUrl = "http://localhost:3000/getreports/outward";
-
+  private _tallyUrl = "http://localhost:3000/getreports/tallydata";
   
   constructor(private _httpClient: HttpClient) { }
 
@@ -67,14 +67,15 @@ export class SalesentryserviceService {
     }
   }
 
-  
   getAllInwardDetails(): Observable<any> {
     return this._httpClient.get<any>(this._purchaseUrl)
   }
 
-  // getAllInwardDetails(): Observable<any> {
-  //   return this._httpClient.get<any>(this._todos)
-  // }
+  getTallydata(date: any): Observable<any> {
+    return this._httpClient.get<any>(this._tallyUrl+'?date='+date);
+  }
+
+  
 
 
 }

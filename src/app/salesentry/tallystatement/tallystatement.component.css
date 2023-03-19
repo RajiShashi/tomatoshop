@@ -1,0 +1,18 @@
+.red {
+    background-color: red;
+    color:#FFF;
+}
+.green {
+    background-color: green;
+    color:#FFF;
+}
+.row-pur-head {
+    background-color: blue;
+    color: #FFF;
+    font-size: 16px;
+}
+.row-sale-head {
+    background-color: rgb(20, 133, 107);
+    color: #FFF;
+    font-size: 16px;
+}

@@ -33,6 +33,28 @@ async function getoutward(param){
   return data;
 }
 
+async function getTallyData(param){
+  let puchaserows = '';
+  let salesrows = '';
+ 
+  if(param.date) {
+    puchaserows = await db.query(
+      `SELECT id, date, pname, sum(kgs) as kgs, sum(pack) as pack, sum(amount) as amount FROM purchase where date = '${param.date}'  GROUP by pname `
+    );
+    salesrows = await db.query(
+      `SELECT id, date, pname, sum(kgs) as kgs, sum(pack) as pack, sum(amount) as amount FROM sales where date = '${param.date}' GROUP by pname`
+    );
+  } 
+  const purchasedata = helper.emptyOrRows(puchaserows);
+  const salesdata = helper.emptyOrRows(salesrows);
+
+
+  return {
+    purchase : purchasedata,
+    sales : salesdata
+  };
+}
+
 // async function getCustomer(id){
 //   const rows = await db.query(
 //     `SELECT id, customername, customertype, address 
@@ -49,5 +71,6 @@ async function getoutward(param){
 
 module.exports = {
   getinward,
-  getoutward
+  getoutward,
+  getTallyData
 }

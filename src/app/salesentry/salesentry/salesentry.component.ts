@@ -113,7 +113,7 @@ export class SalesentryComponent implements OnInit {
     const today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    let yyyy = today.getFullYear().toString().substr(-2);;
+    let yyyy = today.getFullYear().toString().substr(-2);
     let todayDate = dd + '-' + mm + '-' + yyyy;
 
     this.salesForm = this.fb.group({
