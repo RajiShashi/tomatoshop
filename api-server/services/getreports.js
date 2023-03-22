@@ -22,7 +22,12 @@ async function getoutward(param){
      rows = await db.query(
       `SELECT * FROM sales where businessmen = '${param.bman}'`
     );
+  } else if(param.fromdate && param.todate){
+    rows = await db.query(
+      `SELECT *, sum(amount) as totalamount FROM sales where date between '${param.fromdate}' and '${param.todate}' group by businessmen`
+    );
   } else {
+
      rows = await db.query(
       `SELECT *, sum(amount) as totalamount FROM sales group by businessmen`
     );

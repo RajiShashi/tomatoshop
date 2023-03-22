@@ -3,75 +3,73 @@
     <form class="row row-cols-sm-auto">
         <div class="col-3">
             <div class="input-group">
-                <input
-                    class="form-control"
-                    placeholder="yyyy-mm-dd"
-                    name="dp"
-                    [(ngModel)]="model"
-                    ngbDatepicker
-                    #d="ngbDatepicker"
-                />
+                <input class="form-control" [placeholder]="todayDate" name="dp" [(ngModel)]="model" ngbDatepicker
+                    #d="ngbDatepicker" />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
             </div>
-           
+
         </div>
         <div class="col-3">
             <div class="input-group">
-                <button type="button" class="btn btn-primary" (click)="showData()" >
+                <button type="button" class="btn btn-primary" (click)="showData()">
                     Show
-                 </button>
+                </button>
             </div>
         </div>
-        
+
     </form>
 
 
     <table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="tallyData.purchase.length">
         <thead>
-            <tr >
-                <th colspan="3"></th>
+            <tr>
+                <th colspan="3">&nbsp;</th>
                 <th colspan="3" class="row-pur-head">Purchase</th>
                 <th colspan="3" class="row-sale-head">Sales</th>
             </tr>
             <tr>
-                
-                <th>S.No</th>
-                <th>Date</th>
-                <th>Product</th>
-                <th class="row-pur-head">Kgs</th>
-                <th class="row-pur-head">Pack</th>
-                <th class="row-pur-head">Amount</th>
-                <th class="row-sale-head">Kgs</th>
-                <th class="row-sale-head">Pack</th>
-                <th class="row-sale-head">Amount</th>
+
+                <td>S.No</td>
+                <td>Date</td>
+                <td>Product</td>
+                <td class="row-pur-head">Kgs</td>
+                <td class="row-pur-head">Pack</td>
+                <td class="row-pur-head">Amount</td>
+                <td class="row-sale-head">Kgs</td>
+                <td class="row-sale-head">Pack</td>
+                <td class="row-sale-head">Amount</td>
             </tr>
         </thead>
         <tbody>
+
             <tr *ngFor="let data of tallyData.purchase; index as i;">
-              <td>{{i+1}}</td>
-              <td>{{data.date}}</td>
-              <td>{{data.pname}}</td>
-              <td>{{data.kgs}}</td>
-              <td>{{data.pack}}</td>
-              <td>{{data.amount}}</td>
-              <td>{{tallyData.sales[i].kgs}}</td>
-              <td>{{tallyData.sales[i].pack}}</td>
-              <td [ngClass]="{'red': (data.amount > tallyData.sales[i].amount), 'green': (data.amount < tallyData.sales[i].amount)}">{{tallyData.sales[i].amount}}</td>
-            </tr>
-            <tr>
-                <td colspan="9">&nbsp;</td>
-            </tr>
-            <tr>
-                <td colspan="9">&nbsp;</td>
-            </tr>
-            <tr>
-                <td colspan="3"></td>
-                <td colspan="2" >Total Purchase  </td>
-                <td>{{purchaseTotal}}</td>
-                <td colspan="2" >Total Sales   </td>
-                <td>{{salesTotal}}</td>
+                <td>{{i+1}}</td>
+                <td>{{data.date}}</td>
+                <td>{{data.pname}}</td>
+                <td>{{data.kgs}}</td>
+                <td>{{data.pack}}</td>
+                <td>{{data.amount}}</td>
+                <td>{{tallyData.sales[i].kgs}}</td>
+                <td>{{tallyData.sales[i].pack}}</td>
+                <td
+                    [ngClass]="{'red': (data.amount > tallyData.sales[i].amount), 'green': (data.amount < tallyData.sales[i].amount)}">
+                    {{tallyData.sales[i].amount}}</td>
             </tr>
         </tbody>
-
+        <thead>
+            <tr>
+                <td colspan="9">&nbsp;</td>
+            </tr>    
+            <tr>
+                <td colspan="9">&nbsp;</td>
+            </tr>    
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="2">Total Purchase </td>
+                <td colspan="1"><strong>{{purchaseTotal}}</strong></td>
+                <td colspan="2">Total Sales </td>
+                <td colspan="1"><strong>{{salesTotal}}</strong></td>
+            </tr>
+        </thead>
     </table>
 </div>

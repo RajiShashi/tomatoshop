@@ -1,10 +1,37 @@
 <div class="container-fluid">
   <h3>Sales Report</h3>
+    <form class="row row-cols-sm-auto">
+        <div class="col-3">
+            <div class="input-group">
+                <input class="form-control" [placeholder]="todayDate" name="from" [(ngModel)]="fromdate" ngbDatepicker
+                    #from="ngbDatepicker" />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="from.toggle()" type="button"></button>
+            </div>
+
+        </div>
+        <div class="col-3">
+          <div class="input-group">
+              <input class="form-control" [placeholder]="todayDate" name="to" [(ngModel)]="todate" ngbDatepicker
+                  #to="ngbDatepicker" />
+              <button class="btn btn-outline-secondary bi bi-calendar3" (click)="to.toggle()" type="button"></button>
+          </div>
+
+        </div>
+        <div class="col-3">
+            <div class="input-group">
+                <button type="button" class="btn btn-primary" (click)="showData()">
+                    Show
+                </button>
+            </div>
+        </div>
+
+    </form>
   <br/>
-<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="salesData.length">
+<table datatable [dtOptions]="dtOptions" class="row-border hover" >
     <thead>
       <tr>
         <th>S.No</th>
+        <th>Date</th>
         <th>Business Man</th>
         <th>Amount</th>
       </tr>
@@ -13,6 +40,7 @@
       
       <tr *ngFor="let data of salesData; index as i;">
         <td>{{i+1}}</td>
+        <td>{{data.date}}</td>
         <td><a  routerLink="/salesmanreport/{{data.businessmen}}">{{data.businessmen}}</a></td>
         <td>{{data.totalamount}}</td>
       </tr>
