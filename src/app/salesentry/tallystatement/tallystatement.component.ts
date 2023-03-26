@@ -48,6 +48,8 @@ export class TallystatementComponent implements OnInit {
     console.log(date);
     this._salesService.getTallydata(date).subscribe(res => {
       this.tallyData = res;
+      this.purchaseTotal = 0;
+      this.salesTotal = 0;
       this.tallyData.purchase.forEach((val: any, key: any) => {
         console.log(val);
         this.purchaseTotal += val.amount;

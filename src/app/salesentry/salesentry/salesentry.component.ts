@@ -163,7 +163,7 @@ export class SalesentryComponent implements OnInit {
   ngAfterViewInit(): void {
 
     this.id = this._activateRoute.snapshot.params["route"];
-    if (String(this.id) != "") {
+    if (this.id) {
       this._salesService.getPurchaseDetail(this.id).subscribe(data => {
         if (data) {
           this.purchaseInword = data.inwords;
@@ -250,7 +250,8 @@ export class SalesentryComponent implements OnInit {
     return this.packForm.get("inPackModalArray") as FormArray;
   }
 
-  openModal() {
+  openModal($eve: any = '') {
+    $eve.preventDefault();
     if (this.product.nativeElement.value == "தக்காளி") {
       //this.disableTextbox = !this.disableTextbox;
     }
@@ -583,7 +584,10 @@ export class SalesentryComponent implements OnInit {
 
   removeInProducts(index: any): void {
     let controls = this.inProductsArr.controls;
+    let i = this.productsName.findIndex(x => x == controls[index].value.product);
+    this.productsName.splice(i, 1);
     controls.splice(index, 1);
+    
   }
 
   onBlurInRate(): void {
@@ -707,6 +711,7 @@ export class SalesentryComponent implements OnInit {
       this.salesForm.reset();
       window.location.reload();
     })
+    
 
   }
 

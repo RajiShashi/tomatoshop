@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomersRoutingModule } from './customers-routing.module';
 import { CustomersComponent } from './customers/customers.component';
 import { AddcustomerComponent } from './addcustomer/addcustomer.component';
-
+import { DataTablesModule } from "angular-datatables";
 
 
 
@@ -21,7 +21,8 @@ import { AddcustomerComponent } from './addcustomer/addcustomer.component';
     CustomersRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataTablesModule
   ]
 })
 export class CustomersModule { }

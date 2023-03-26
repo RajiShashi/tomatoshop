@@ -1,45 +1,80 @@
-<div class="mt-2">
+<div class="container-fluid">
+  <h3>Customer Info</h3>
   <form #f="ngForm">
+    <div class="row col-4 customer-form"> 
 
-    <div class="mb-3">
-      <label for="customername">CustomeName</label>
-      <input type="text" [ngModel]="customername" name="customername" required>
+    <div class="row">
+      <div class="col-6">
+        <label for="customername">CustomeName</label>
+      </div>
+      <div class="col-6">
+        <input type="text" [ngModel]="customername" name="customername" required>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <label for="address">Address</label>
-      <input type="text" [ngModel]="address" name="address" required>
+    <div class="row">
+      <div class="col-6">
+        <label for="customername">Address</label>
+      </div>
+      <div class="col-6">
+        <input type="text" [ngModel]="address" name="address" required>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <label for="outletarea">OutletArea</label>
-      <input type="text" [ngModel]="outletarea" name="outletarea" required>
+    <div class="row">
+      <div class="col-6">
+        <label for="outletarea">OutletArea</label>
+      </div>
+      <div class="col-6">
+        <input type="text" [ngModel]="outletarea" name="outletarea" required>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <label for="phonenumber">PhoneNumber</label>
-      <input type="number" [ngModel]="phonenumber" name="phonenumber" required>
+    <div class="row">
+      <div class="col-6">
+        <label for="phonenumber">PhoneNumber</label>
+      </div>
+      <div class="col-6">
+         <input type="number" [ngModel]="phonenumber" name="phonenumber" required>
+      </div>
+    </div>
+   
+    <div class="row">
+      <div class="col-6">
+        <label for="tinnumber">TinNumber</label>
+      </div>
+      <div class="col-6">
+        <input type="number" [ngModel]="tinnumber" name="tinnumber" required>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <label for="tinnumber">TinNumber</label>
-      <input type="number" [ngModel]="tinnumber" name="tinnumber" required>
+    <div class="row">
+      <div class="col-6">
+        <label for="customertype">CustomerType</label>
+      </div>
+      <div class="col-6">
+        <select #ctype (change)="onChange(ctype.value)" [(ngModel)]="customertype" name="customertype">
+          <option [value]="null" [disabled]="true" [selected]> Select an option </option>
+          <option *ngFor="let user of selectCustomer" value="{{user.type}}">{{user.type}}</option>
+        </select>
+      </div>
     </div>
 
-    <div class="mb-3">
-      <label for="customertype">CustomerType</label>
-      <select #ctype (change)="onChange(ctype.value)" [(ngModel)]="customertype" name="customertype">
-        <option [value]="null" [disabled]="true" [selected]> Select an option </option>
-        <option *ngFor="let user of selectCustomer" value="{{user.type}}">{{user.type}}</option>
-      </select>
+    <div class="row">
+      <div class="col-6">
+       
+      </div>
+      <div class="col-6">
+        <button *ngIf="id==0" type="submit" class="btn btn-primary" (click)="saveCustomer(f)"
+        [disabled]="!f.valid">Submit</button>
+      <button *ngIf="id>0" type="submit" class="btn btn-primary" (click)="updateCustomer(f)"
+        [disabled]="!f.valid">updateCustomer</button>
+      </div>
     </div>
     
-    <!-- <button  type="submit" class="btn btn-primary" (click)="saveCustomer(f,btnSubmit)">{{btnSubmit}}</button> -->
-    <!-- <button  type="submit" class="btn btn-primary" (click)="updateCustomer(f)">updateCustomer</button> -->
-    <button *ngIf="id==0" type="submit" class="btn btn-primary" (click)="saveCustomer(f)"
-      [disabled]="!f.valid">Submit</button>
-    <button *ngIf="id>0" type="submit" class="btn btn-primary" (click)="updateCustomer(f)"
-      [disabled]="!f.valid">updateCustomer</button>
+   
+    </div>
   </form>
+
 </div>
 

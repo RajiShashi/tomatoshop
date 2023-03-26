@@ -15,12 +15,16 @@ export class PurchasereportComponent implements OnInit {
   countries!: any[];
 
   inwordDatas: any[] = [];
+  dtOptions: DataTables.Settings = {};
 
   constructor(private _salesEntryService: SalesentryserviceService) {
     this.refreshCountries();
   }
 
   ngOnInit(): void {
+    this.dtOptions = {
+      pagingType: 'full_numbers'
+    };
     this._salesEntryService.getAllInwardDetails().subscribe(data => {
     
       this.inwordDatas = data.data;

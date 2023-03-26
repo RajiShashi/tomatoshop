@@ -60,8 +60,8 @@
             </div>
             <div class="col" id="model">
                 <input type="string" #pack formControlName="pack" placeholder="Pack" (blur)="onBlurInPack()"
-                    (keydown.enter)="openModal()">
-                <i (click)="openModal()" class="fa fa-plus" *ngIf="disableTextbox"></i> 
+                    (keydown.enter)="openModal($event)">
+                <i (click)="openModal($event)" class="fa fa-plus" *ngIf="disableTextbox"></i> 
                 <!--<button (click)="openModal()" [disabled]='disableTextbox'>Click</button>-->
 
                 <!-- <i (click)="openModal()" class="fa fa-plus" [ngClass]="{'fa fa-plus' : tomato==false}"></i> -->
@@ -116,7 +116,7 @@
                             <input type="number" formControlName="amount" placeholder="Amount" disabled>
                         </div>
                         <div class="col">
-                            <button (click)="removeInProducts(i)" class="btn btn-danger"> Remove</button>
+                            <button type="button" (click)="removeInProducts(i)" class="btn btn-danger"> Remove</button>
                         </div>
                     </div>
                 </ng-container>
@@ -139,8 +139,8 @@
             </div>
             <div class="col col-2">
                 <label for="totalamount"><h4><strong>TotalAmount:</strong></h4></label>
-                <input type="number" formControlName="totalamount" disabled>
-                <!-- <h2 formControlName="totalamount"><strong>{{totalAmount}}</strong></h2> -->
+                <input type="hidden" formControlName="totalamount" >
+                <h2 formControlName="totalamount"><strong>{{totalAmount}}</strong></h2>
             </div>
         </div>
         <div class="row">
@@ -253,7 +253,7 @@
 
         <br>
         <br>
-        <button class="btn btn-primary" type="button" (click)="onClickSubmit()">Submit</button>
+        <button class="btn btn-primary" type="button" (click)="onClickSubmit()">Submit</button>&nbsp;&nbsp;
         <button class="btn btn-danger" type="button" (click)="onClickCancel()">Cancel</button>
     </form>
 </div>

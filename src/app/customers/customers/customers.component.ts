@@ -10,10 +10,14 @@ import { ICustomers } from '../ICustomers';
 export class CustomersComponent implements OnInit {
 
   customers!: ICustomers[];
+  dtOptions: DataTables.Settings = {};
 
   constructor(private _customerservice: CustomersService) { }
 
   ngOnInit(): void {
+    this.dtOptions = {
+      pagingType: 'full_numbers'
+    };
     this._customerservice.getAllCustomer().subscribe(data => {
       this.customers = data.data;
     })

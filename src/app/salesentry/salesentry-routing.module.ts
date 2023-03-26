@@ -6,6 +6,7 @@ import { SalesentryComponent } from './salesentry/salesentry.component';
 import { SalesreportComponent } from './salesreport/salesreport.component';
 import { TallystatementComponent } from './tallystatement/tallystatement.component';
 import { SalesmanreportComponent } from './salesmanreport/salesmanreport.component';
+import { ReceiptComponent } from './receipt/receipt.component';
 
 const routes: Routes = [
   { path: 'sales', component: SalesentryComponent },
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'salesreport', component: SalesreportComponent },
   { path: 'salesmanreport/:id', component: SalesmanreportComponent },
   { path: 'purchasereport', component: PurchasereportComponent },
-  { path: 'tallystatement', component: TallystatementComponent }
+  { path: 'tallystatement', component: TallystatementComponent },
+  { path: 'receipts', component: ReceiptComponent },
 
 ];
 

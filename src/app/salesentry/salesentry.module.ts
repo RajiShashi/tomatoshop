@@ -14,6 +14,7 @@ import { PurchasereportComponent } from './purchasereport/purchasereport.compone
 import { TallystatementComponent } from './tallystatement/tallystatement.component';
 import { SalesmanreportComponent } from './salesmanreport/salesmanreport.component';
 import { DataTablesModule } from "angular-datatables";
+import { ReceiptComponent } from './receipt/receipt.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DataTablesModule } from "angular-datatables";
     SalesreportComponent,
     PurchasereportComponent,
     TallystatementComponent,
-    SalesmanreportComponent
+    SalesmanreportComponent,
+    ReceiptComponent
   ],
   entryComponents: [
     PackmodelComponent

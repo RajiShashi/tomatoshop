@@ -1,0 +1,83 @@
+<div class="container-fluid">
+    <h3>Receipts</h3>
+    <form #f="ngForm" >
+      <div class="row col-4 customer-form"> 
+  
+      <div class="row">
+        <div class="col-6">
+          <label for="customername">CustomeName</label>
+        </div>
+        <div class="col-6">
+            <select #businessMan (change)="selectBusinessman(businessMan.value)" formControlName="businessMan">
+                <option value="">Select BusinessMan</option>
+                <option *ngFor="let business of businessManType" [value]="business.pname">
+                    {{business.pname }}
+                </option>
+            </select>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-6">
+          <label for="customername">Previous Balance</label>
+        </div>
+        <div class="col-6">
+          <input type="text" [ngModel]="previousBalance" name="previousBalance" readonly disabled>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-6">
+          <label for="outletarea">Today's Receipt</label>
+        </div>
+        <div class="col-6">
+          <input type="text" [ngModel]="downpayment" name="downpayment" required>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-6">
+          <label for="phonenumber">Discount</label>
+        </div>
+        <div class="col-6">
+           <input type="number" [ngModel]="discount" name="discount" required>
+        </div>
+      </div>
+     
+      <div class="row">
+        <div class="col-6">
+          <label for="tinnumber">Balance</label>
+        </div>
+        <div class="col-6">
+          <input type="number" [ngModel]="balance" name="balance" required>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-6">
+         &nbsp;
+        </div>
+        <div class="col-6">
+            &nbsp;
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-6">
+         
+        </div>
+        <div class="col-6">
+          <button  type="button" class="btn btn-primary" (click)="saveReceipt()"
+          >Save</button>&nbsp;&nbsp;
+        <button  type="button" class="btn btn-primary" (click)="returnToSales()"
+          >Return</button>
+        </div>
+      </div>
+      
+     
+      </div>
+    </form>
+  
+  </div>
+  
+  

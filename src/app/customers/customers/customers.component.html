@@ -1,23 +1,27 @@
+<h3>Customers Details</h3>
+
 <a class="btn btn-primary" routerLink="/addcustomer" role="button">AddCustomer</a>
 <br>
 <br>
-<table border="1">
+<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="customers.length">
     <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">CustomerName</th>
-            <th scope="col">CustomerType</th>
-            <th scope="col">Address</th>
-            <th scope="col">Edit</th>
+            <th >S.No</th>
+            <th>CustomerName</th>
+            <th >CustomerType</th>
+            <th >City</th>
+            <th >Edit</th>
         </tr>
     </thead>
-    <tr *ngFor="let cust of customers">
-        <td>{{cust.id}}</td>
-        <td>{{cust.customername}}</td>
-        <td>{{cust.customertype}}</td>
-        <td>{{cust.address}}</td>
-        <td>
-            <a [routerLink]="['/customers',cust.id]">Edit</a>
-        </td>
-    </tr>
+    <tbody>
+        <tr *ngFor="let cust of customers;index as i;">
+            <td>{{i+1}}</td>
+            <td>{{cust.pname}}</td>
+            <td>{{cust.category}}</td>
+            <td>{{cust.city}}</td>
+            <td>
+                <a [routerLink]="['/customers',cust.id]">Edit</a>
+            </td>
+        </tr>
+    </tbody>
 </table>

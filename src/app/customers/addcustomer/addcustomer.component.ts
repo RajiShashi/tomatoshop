@@ -11,8 +11,8 @@ import { SalesentryserviceService } from 'src/app/salesentry/salesentryservice.s
 export class AddcustomerComponent implements OnInit {
 
   selectCustomer = [
-    {id: 1, type: "Farmer"},
-    {id: 2, type: "BusinessMan"}
+    {id: 1, type: "FARMER"},
+    {id: 2, type: "CUSTOMER"}
     // {id: 3, type: "Others"},
  ];
 
