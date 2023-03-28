@@ -1,4 +1,33 @@
 
+<div class="container-fluid">
+    <h3>Purchase Report</h3>
+      <form class="row row-cols-sm-auto">
+          <div class="col-3">
+              <div class="input-group">
+                  <input class="form-control" [placeholder]="todayDate" name="from" [(ngModel)]="fromdate" ngbDatepicker
+                      #from="ngbDatepicker" />
+                  <button class="btn btn-outline-secondary bi bi-calendar3" (click)="from.toggle()" type="button"></button>
+              </div>
+  
+          </div>
+          <div class="col-3">
+            <div class="input-group">
+                <input class="form-control" [placeholder]="todayDate" name="to" [(ngModel)]="todate" ngbDatepicker
+                    #to="ngbDatepicker" />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="to.toggle()" type="button"></button>
+            </div>
+  
+          </div>
+          <div class="col-3">
+              <div class="input-group">
+                  <button type="button" class="btn btn-primary" (click)="showData()">
+                      Show
+                  </button>
+              </div>
+          </div>
+  
+      </form>
+    <br/>
 <table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="inwordDatas && inwordDatas.length">
     <thead>
         <tr>

@@ -7,6 +7,7 @@ import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstra
 import { JsonPipe } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { RouterModule, Router  } from '@angular/router';
 
 @Component({
   selector: 'app-salesentry',
@@ -73,7 +74,7 @@ export class SalesentryComponent implements OnInit {
   purchaseOutword!: any;
   purchaseSales!: any;
 
-  constructor(@Inject(DOCUMENT) private _document: any, private fb: FormBuilder, private _salesService: SalesentryserviceService, private _activateRoute: ActivatedRoute) {
+  constructor(@Inject(DOCUMENT) private _document: any, private fb: FormBuilder, private _salesService: SalesentryserviceService, private _activateRoute: ActivatedRoute, private router: Router) {
     this.window = this._document.defaultView;
     
   }
@@ -709,7 +710,7 @@ export class SalesentryComponent implements OnInit {
       this.salesmaster.push(salesentry);
       alert("Sales entry added successfully..");
       this.salesForm.reset();
-      window.location.reload();
+      this.router.navigate(['purchasereport']);
     })
     
 

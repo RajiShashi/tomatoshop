@@ -67,8 +67,12 @@ export class SalesentryserviceService {
     }
   }
 
-  getAllInwardDetails(): Observable<any> {
-    return this._httpClient.get<any>(this._purchaseUrl)
+  getAllInwardDetails(val:any): Observable<any> {
+    if(val && val != '') {
+      return this._httpClient.get<any>(this._purchaseUrl+ "?" + val);
+    } else {
+      return this._httpClient.get<any>(this._purchaseUrl);
+    }
   }
 
   getTallydata(date: any): Observable<any> {

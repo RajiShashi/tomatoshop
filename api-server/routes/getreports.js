@@ -6,7 +6,7 @@ const getreport = require('../services/getreports');
 
 router.get('/inward', async function(req, res, next) {
     try {
-        res.json(await getreport.getinward());
+        res.json(await getreport.getinward(req.query));
     } catch (err) {
         console.error(`Error while getting sales entry `, err.message);
         next(err);

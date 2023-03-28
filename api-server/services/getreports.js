@@ -2,13 +2,19 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
 
-async function getinward(page = 1){
-  const offset = helper.getOffset(page, config.listPerPage);
-  const rows = await db.query(
-    `SELECT * FROM masters`
-  );
+async function getinward(param){
+  let rows;
+  if(param.fromdate && param.todate){
+    rows = await db.query(
+      `SELECT * FROM masters where date between '${param.fromdate}' and '${param.todate}' and type ='FORMER'`
+    );
+  } else {
+    rows = await db.query(
+      `SELECT * FROM masters`
+    );
+  }
   const data = helper.emptyOrRows(rows);
-  const meta = {page};
+  
 
   return {
     data
