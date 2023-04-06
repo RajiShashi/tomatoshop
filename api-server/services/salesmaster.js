@@ -1,6 +1,7 @@
 const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
+const { async } = require('rxjs');
 
 
 async function createsalesmaster(request) {
@@ -9,7 +10,7 @@ async function createsalesmaster(request) {
     const salesid = request.sales['id'];
     const result = await db.query(
       `Update masters set
-       date = '${request.sales.date}', 
+       date = '${helper.convertDate(request.sales.date)}', 
         credit = '${request.sales.credit}', 
         debit = '${request.sales.debit}', 
         billdate ='${request.sales.date}', 
@@ -52,7 +53,7 @@ async function createsalesmaster(request) {
         sungam,
         code) 
       VALUES 
-      ( '${request.sales.date}',
+      ( '${helper.convertDate(request.sales.date)}',
         '${salesid}',
         '${request.sales.customerid}',
         '${request.inwards[i].product}', 
@@ -62,10 +63,10 @@ async function createsalesmaster(request) {
         '${request.inwards[i].amount}',
         '${request.inwards[i].product}',
         'KGS',
-        '${request.sales.commission}',
+        '${request.inwards[i].commission}',
         '${request.sales.rent}',
-        '${request.sales.wages}',
-        '${request.sales.toll}',
+        '${request.inwards[i].wages}',
+        '${request.inwards[i].toll}',
         '1'
         )`
       );
@@ -82,7 +83,7 @@ async function createsalesmaster(request) {
             sno
            )
            VALUES 
-           ( '${request.sales.date}',
+           ( '${helper.convertDate(request.sales.date)}',
              '${purchaseid}',
              '${salesid}',
              '${request.inwards[i].product}',
@@ -111,7 +112,7 @@ async function createsalesmaster(request) {
           code
           ) 
         VALUES 
-        ( '${request.sales.date}',
+        ( '${helper.convertDate(request.sales.date)}',
           '${salesid}',
           '${request.sales.customerid}',
           '${request.outwards[i].businessMan}',
@@ -151,7 +152,7 @@ async function createsalesmaster(request) {
       sungam
       ) 
     VALUES 
-    ('${request.sales.date}',
+    ('${helper.convertDate(request.sales.date)}',
      '${request.sales.customerid}',
      '${request.sales.credit}', 
      '${request.sales.debit}', 
@@ -197,7 +198,7 @@ async function createsalesmaster(request) {
       sungam,
       code) 
     VALUES 
-    ( '${request.sales.date}',
+    ( '${helper.convertDate(request.sales.date)}',
       '${salesid}',
       '${request.sales.customerid}',
       '${request.inwards[i].product}', 
@@ -207,10 +208,10 @@ async function createsalesmaster(request) {
       '${request.inwards[i].amount}',
       '${request.inwards[i].product}',
       'KGS',
-      '${request.sales.commission}',
+      '${request.inwards[i].commission}',
       '${request.sales.rent}',
-      '${request.sales.wages}',
-      '${request.sales.toll}',
+      '${request.inwards[i].wages}',
+      '${request.inwards[i].toll}',
       '1'
       )`
       );
@@ -227,7 +228,7 @@ async function createsalesmaster(request) {
           sno
          )
          VALUES 
-         ( '${request.sales.date}',
+         ( '${helper.convertDate(request.sales.date)}',
            '${purchaseid}',
            '${salesid}',
            '${request.inwards[i].product}',
@@ -257,7 +258,7 @@ async function createsalesmaster(request) {
         code
         ) 
       VALUES 
-      ( '${request.sales.date}',
+      ( '${helper.convertDate(request.sales.date)}',
         '${salesid}',
         '${request.sales.customerid}',
         '${request.outwards[i].businessMan}',
@@ -322,9 +323,97 @@ async function getSalesId(id) {
 
 }
 
+async function receiptUpdate(request) {
+  const result = await db.query(
+    `INSERT INTO masters 
+   (date, 
+    name, 
+    credit,
+    reason, 
+    billdate,
+    billno,
+    type,
+    billbook,
+    salesman,
+    amount,
+    discount
+    ) 
+  VALUES 
+  ('${helper.convertDate(request.date)}',
+   '${request.customername}',
+   '${request.downpayment}', 
+   'RECEIPT',
+   '${request.date}', 
+   '1001',
+   'RECEIPT',
+   'BILL BOOK', 
+   'SALES MAN',
+   '${request.downpayment}', 
+   '${request.discount}'
+   
+   )`
+  );
+
+  let message = "salesmaster error";
+
+  if (result.affectedRows) {
+    message = 'receipt created successfully';
+  }
+}
+
+async function salesUpdate(request) {
+  const salesrows = await db.query(
+    `SELECT billno FROM sales order by billno desc limit 1`
+  );
+  console.log(salesrows[0]);
+  const salesbillno = Number(salesrows[0].billno)+1;
+  console.log(salesbillno);
+  console.log( `update sales set billno='${salesbillno}' where businessmen = '${request.customername}' and billno='0'`);
+  const salesrowsupdate = await db.query(
+    `update sales set billno='${salesbillno}' where businessmen = '${request.customername}' and billno='0'`
+  );
+  
+  const result = await db.query(
+    `INSERT INTO masters 
+   (date, 
+    name, 
+    debit,
+    reason, 
+    billdate,
+    billno,
+    type,
+    billbook,
+    salesman,
+    amount,
+    cooley
+   
+    ) 
+  VALUES 
+  ('${helper.convertDate(request.date)}',
+   '${request.customername}',
+   '${request.amount}', 
+   'SALES',
+   '${request.date}', 
+   '${salesbillno}',
+   'CUSTOMER',
+   'BILL BOOK', 
+   'SALES MAN',
+   '${request.amount}',
+   '${request.cooley}' 
+   )`
+  );
+
+  let message = "salesmaster error";
+
+  if (result.affectedRows) {
+    message = 'receipt created successfully';
+  }
+}
 
 
 module.exports = {
   createsalesmaster,
-  getSalesId
+  getSalesId,
+  receiptUpdate,
+  salesUpdate
 }

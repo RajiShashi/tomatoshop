@@ -79,7 +79,13 @@ export class SalesentryserviceService {
     return this._httpClient.get<any>(this._tallyUrl+'?date='+date);
   }
 
-  
+  saveReceipt(sales: any): Observable<any> {
+    return this._httpClient.post(this._salesurl+'?receipt=update', sales);
+  }
+
+  salesUpdate(sales: any): Observable<any> {
+    return this._httpClient.post(this._salesurl+'?sales=update', sales);
+  }
 
 
 }

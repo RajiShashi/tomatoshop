@@ -20,12 +20,19 @@ export class ReceiptComponent implements OnInit {
   downpayment: any;
   discount: any;
   balance: any;
+  date: any;
   myGroup: any;
+  businessManVal: any;
   
   constructor(private _salesService: SalesentryserviceService, @Inject(DOCUMENT) private _document: any ) {this.window = this._document.defaultView; }
 
   ngOnInit(): void {
-    
+    const today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear().toString().substr(-2);
+    this.date = dd + '-' + mm + '-' + yyyy;
+
     this._salesService.getAllCustomer().subscribe(c => {
       this.customers = c?.data;
       this.customers.forEach((value, index) => {
@@ -38,25 +45,58 @@ export class ReceiptComponent implements OnInit {
 
   }
 
-  selectBusinessman(value: any): void {
-    console.log(value);
-    let param = 'businessname='+value;
-    this._salesService.getSalesDetail(param).subscribe(res => {
-      console.log(res[0] );
-      this.previousBalance = 0;
-      if(res[0] && res[0]['totalamount']) {
-        this.previousBalance = res[0]['totalamount'];
-      }
-      
-     })
+  selectBusinessman(val:any): void {
+    this.businessManVal = val;
+    let param = 'businessname='+this.businessManVal;
+    if(this.businessManVal && this.businessManVal != '') {
+      this._salesService.getSalesDetail(param).subscribe(res => {
+        console.log(res[0] );
+        this.previousBalance = 0;
+        if(res[0] && res[0]['totalamount']) {
+          this.previousBalance = res[0]['totalamount'];
+        }
+        
+      })
+    }
   }
 
-  saveReceipt() {
+  saveReceipt(f: NgForm) {
     
+    let receipt = {
+      date: this.date,
+      downpayment:this.downpayment,
+      discount:this.discount,
+      customername: this.businessManVal
+    }
+    if(this.downpayment && this.downpayment != '' && this.discount && this.discount != '' && this.businessManVal && this.businessManVal != '') {
+
+    
+      this._salesService.saveReceipt(receipt).subscribe(data => {
+        alert("Receipt added successfully..");
+        this.downpayment = '';
+        this.discount = '';
+        this.businessManVal = '';
+        this.balance = '';
+        this.previousBalance = 0;
+      })
+    } else {
+      alert("Please enter the all values");
+    }
   }
 
   returnToSales() {
 
+  }
+
+  updateDiscount() {
+    if(this.downpayment) {
+      this.discount = (3*this.downpayment/100);
+      this.balance = Number(this.previousBalance) - (Number(this.downpayment) + Number(this.discount));
+    }
+  }
+
+  updateDiscountVal() {
+    this.balance = Number(this.previousBalance) - (Number(this.downpayment) + Number(this.discount));
   }
 
 }

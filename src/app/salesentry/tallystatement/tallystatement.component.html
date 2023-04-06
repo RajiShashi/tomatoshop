@@ -19,7 +19,12 @@
 
     </form>
 
-
+    <div *ngIf="!tallyData.purchase.length">
+        <br>
+        <br>
+       
+        <h5>No records found</h5>
+    </div>
     <table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="tallyData.purchase.length">
         <thead>
             <tr>
@@ -42,9 +47,9 @@
         </thead>
         <tbody>
 
-            <tr *ngFor="let data of tallyData.purchase; index as i;">
+            <tr *ngFor="let data of tallyData.purchase; index as i;" >
                 <td>{{i+1}}</td>
-                <td>{{data.date}}</td>
+                <td>{{data.date | date:'dd-mm-yyyy'}}</td>
                 <td>{{data.pname}}</td>
                 <td>{{data.kgs}}</td>
                 <td>{{data.pack}}</td>

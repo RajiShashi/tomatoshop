@@ -40,11 +40,15 @@
       
       <tr *ngFor="let data of salesData; index as i;">
         <td>{{i+1}}</td>
-        <td>{{data.date}}</td>
+        <td>{{data.date | date:'dd-MM-yyyy'}}</td>
         <td><a  routerLink="/salesmanreport/{{data.businessmen}}">{{data.businessmen}}</a></td>
         <td>{{data.totalamount}}</td>
       </tr>
     </tbody>
   </table>
+
+  
+  
+  
 </div>  
   

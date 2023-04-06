@@ -2,13 +2,20 @@
     <h3>Receipts</h3>
     <form #f="ngForm" >
       <div class="row col-4 customer-form"> 
-  
+        <div class="row">
+          <div class="col-6">
+            <label for="customername">Date</label>
+          </div>
+          <div class="col-6">
+            <input type="text" [(ngModel)]="date" name="date" readonly disabled>
+          </div>
+        </div>  
       <div class="row">
         <div class="col-6">
           <label for="customername">CustomeName</label>
         </div>
         <div class="col-6">
-            <select #businessMan (change)="selectBusinessman(businessMan.value)" formControlName="businessMan">
+            <select #businessMan  (change)="selectBusinessman(businessMan.value)" >
                 <option value="">Select BusinessMan</option>
                 <option *ngFor="let business of businessManType" [value]="business.pname">
                     {{business.pname }}
@@ -22,7 +29,7 @@
           <label for="customername">Previous Balance</label>
         </div>
         <div class="col-6">
-          <input type="text" [ngModel]="previousBalance" name="previousBalance" readonly disabled>
+          <input type="text" [(ngModel)]="previousBalance" name="previousBalance" readonly disabled>
         </div>
       </div>
   
@@ -31,7 +38,7 @@
           <label for="outletarea">Today's Receipt</label>
         </div>
         <div class="col-6">
-          <input type="text" [ngModel]="downpayment" name="downpayment" required>
+          <input type="text" [(ngModel)]="downpayment" name="downpayment" required (blur)="updateDiscount()">
         </div>
       </div>
   
@@ -40,7 +47,7 @@
           <label for="phonenumber">Discount</label>
         </div>
         <div class="col-6">
-           <input type="number" [ngModel]="discount" name="discount" required>
+           <input type="number" [(ngModel)]="discount" name="discount" required (blur)="updateDiscountVal()">
         </div>
       </div>
      
@@ -49,7 +56,7 @@
           <label for="tinnumber">Balance</label>
         </div>
         <div class="col-6">
-          <input type="number" [ngModel]="balance" name="balance" required>
+          <input type="number" [(ngModel)]="balance" name="balance" required>
         </div>
       </div>
   
@@ -67,9 +74,9 @@
          
         </div>
         <div class="col-6">
-          <button  type="button" class="btn btn-primary" (click)="saveReceipt()"
+          <button  type="button" class="btn btn-primary" (click)="saveReceipt(f)"
           >Save</button>&nbsp;&nbsp;
-        <button  type="button" class="btn btn-primary" (click)="returnToSales()"
+        <button routerLink="/sales" type="button" class="btn btn-primary" (click)="returnToSales()"
           >Return</button>
         </div>
       </div>

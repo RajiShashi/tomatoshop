@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SalesentryserviceService } from '../salesentryservice.service';
 
+
 @Component({
   selector: 'app-salesreport',
   templateUrl: './salesreport.component.html',
@@ -14,6 +15,7 @@ export class SalesreportComponent implements OnInit {
   fromdate: any;
   todate: any;
   currentDate: any;
+
 
   constructor(private _salesService: SalesentryserviceService) { }
 
@@ -57,4 +59,7 @@ export class SalesreportComponent implements OnInit {
      })
   }
 
+ 
+
+ 
 }

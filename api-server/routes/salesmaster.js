@@ -7,7 +7,13 @@ const salesmaster = require('../services/salesmaster');
 /* Post sales entry. */
 router.post('/', async function(req, res, next) {
     try {
-        res.json(await salesmaster.createsalesmaster(req.body));
+        if(req.query.sales=='update') {
+            res.json(await salesmaster.salesUpdate(req.body));
+        } else if(req.query.receipt=='update') {
+            res.json(await salesmaster.receiptUpdate(req.body));
+        } else {
+            res.json(await salesmaster.createsalesmaster(req.body));
+        }
     } catch (err) {
         console.error(`Error while creating salesmaster`, err.message);
         next(err);

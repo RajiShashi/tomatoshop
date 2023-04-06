@@ -8,8 +8,14 @@ function getOffset(currentPage = 1, listPerPage) {
     }
     return rows;
   }
+
+function convertDate(date) {
+  let dateVal = date.split('-');
+  return new Date(dateVal[1]+'-'+dateVal[0]+'-'+dateVal[2]).getTime();
+}  
   
   module.exports = {
     getOffset,
-    emptyOrRows
+    emptyOrRows,
+    convertDate
   }

@@ -182,6 +182,7 @@ export class SalesentryComponent implements OnInit {
           this.salesForm.get("debit")?.patchValue(this.purchaseSales.debit);
           this.salesForm.get("credit")?.patchValue(this.purchaseSales.credit);
           this.salesForm.get("totalamount")?.patchValue(this.purchaseSales.amount);
+          this.totalAmount = this.purchaseSales.amount;
 
           data.inwords.forEach((x: any) => {
             const inProductsGroup = this.fb.group({
@@ -464,22 +465,14 @@ export class SalesentryComponent implements OnInit {
       tomatoAmt = this.kgs.nativeElement.value * this.rate.nativeElement.value
     }
 
-    const inProductsGroup = this.fb.group({
-      product: [this.product.nativeElement.value],
-      kgs: [this.kgs.nativeElement.value],
-      pack: [this.pack.nativeElement.value],
-      rate: [this.rate.nativeElement.value],
-      amount: tomatoAmt,
-      packValue: [this.packArray]
-    })
-
+    
     // remove packarray
     const control = <FormArray>this.packForm.controls['inPackModalArray'];
     for (let i = control.length - 1; i >= 0; i--) {
       control.removeAt(i)
     }
 
-    this.inProductsArr.push(inProductsGroup);
+    
 
     this.productsName.push(this.product.nativeElement.value);
 
@@ -555,6 +548,19 @@ export class SalesentryComponent implements OnInit {
     // let lessToll = this.salesForm.get("toll")?.value;
     // let lessWages = this.salesForm.get("wages")?.value;
 
+    const inProductsGroup = this.fb.group({
+      product: [this.product.nativeElement.value],
+      kgs: [this.kgs.nativeElement.value],
+      pack: [this.pack.nativeElement.value],
+      rate: [this.rate.nativeElement.value],
+      amount: tomatoAmt,
+      packValue: [this.packArray],
+      commission:[this.lessCommision],
+      toll:[this.lessToll],
+      wages:[this.lessWages]
+    })
+    this.inProductsArr.push(inProductsGroup);
+
     let lessAmount = this.amount.nativeElement.value;
     let totAmt = this.salesForm.get("totalamount")?.value;
 
@@ -568,7 +574,7 @@ export class SalesentryComponent implements OnInit {
       this.salesForm.get("totalamount")?.setValue(parseInt(lessAmount) + parseInt(totAmt));
     }
     this.totalAmount = this.salesForm.get("totalamount")?.value;
-
+    this.totalAmountUpdate();
     this.product.nativeElement.value = "";
     this.kgs.nativeElement.value = "";
     this.pack.nativeElement.value = "";
@@ -585,12 +591,19 @@ export class SalesentryComponent implements OnInit {
 
   removeInProducts(index: any): void {
     let controls = this.inProductsArr.controls;
+    let pname = controls[index].value.product;
     let i = this.productsName.findIndex(x => x == controls[index].value.product);
     this.productsName.splice(i, 1);
     controls.splice(index, 1);
     
+    this.outProductsArr.controls = this.outProductsArr.controls.filter(function( obj ) {
+      return obj.value.outProduct !== pname;
+    });
+    
+    this.totalAmountUpdate();
   }
 
+  
   onBlurInRate(): void {
     if (this.kgs.nativeElement.value != 0) {
       let inAmount = this.kgs.nativeElement.value * this.rate.nativeElement.value;
@@ -721,6 +734,14 @@ export class SalesentryComponent implements OnInit {
     window.location.reload();
   }
 
+  totalAmountUpdate() {
+    let totalAmount= 0;
+    this.inProductsArr.controls.forEach(function (value, index) {
+      totalAmount += Number(value.value.amount) - (value.value.commission+value.value.toll+value.value.wages);
+    });
+    this.salesForm.get("totalamount")?.setValue(totalAmount);
+    this.totalAmount = totalAmount;
+  }
 
 }
 
