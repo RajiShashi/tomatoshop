@@ -9,6 +9,7 @@ import { SalesmanreportComponent } from './salesmanreport/salesmanreport.compone
 import { ReceiptComponent } from './receipt/receipt.component';
 import { CustomerreportComponent } from './customerreport/customerreport.component';
 import { CustomerbillreportComponent } from './customerbillreport/customerbillreport.component';
+import { HomeComponent } from '../home/home.component';
 
 const routes: Routes = [
   { path: 'sales', component: SalesentryComponent },
@@ -20,8 +21,9 @@ const routes: Routes = [
   { path: 'tallystatement', component: TallystatementComponent },
   { path: 'receipts', component: ReceiptComponent },
   { path: 'customerreport', component: CustomerreportComponent },
-  { path: 'customerbillreport/:id', component: CustomerbillreportComponent }
-  
+  { path: 'customerbillreport/:id', component: CustomerbillreportComponent },
+  { path: 'home', component: HomeComponent},
+  { path: '', component: HomeComponent}
 ];
 
 @NgModule({

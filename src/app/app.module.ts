@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TablesComponent } from './tables/tables.component';
 import { NgbAlertModule, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -20,7 +21,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
   declarations: [
     AppComponent,
     SidebarComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomeComponent
 
   ],
   imports: [

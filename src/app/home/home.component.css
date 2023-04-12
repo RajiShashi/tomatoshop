@@ -1,0 +1,10 @@
+.indigo-text.text-lighten-1 {
+    color: #5c6bc0 !important;
+}
+
+.card-title {
+    margin-bottom: 0.75rem;
+    background-color: #4e73df;
+    padding: 10px;
+    color: #FFF;
+}
