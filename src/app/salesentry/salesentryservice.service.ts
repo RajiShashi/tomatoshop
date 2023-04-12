@@ -87,5 +87,14 @@ export class SalesentryserviceService {
     return this._httpClient.post(this._salesurl+'?sales=update', sales);
   }
 
+  savePrint(printvalue: any): Observable<any> {
+    
+    return this._httpClient.post(this._salesurl+'?type=saveprint', printvalue);
+  }
+
+  saveSalesPrint(printvalue: any): Observable<any> {
+    
+    return this._httpClient.post(this._salesurl+'?type=savesalesprint', printvalue);
+  }
 
 }

@@ -6,7 +6,7 @@ async function getinward(param){
   let rows;
   if(param.fromdate && param.todate){
     rows = await db.query(
-      `SELECT * FROM masters where date between '${helper.convertDate(param.fromdate)}' and '${helper.convertDate(param.todate)}' and type ='FORMER'`
+      `SELECT *, (select noofprint from purchase where refno = masters.id limit 1) as noofprint FROM masters where date between '${helper.convertDate(param.fromdate)}' and '${helper.convertDate(param.todate)}' and type ='FORMER'`
     );
   } else {
     rows = await db.query(
@@ -26,9 +26,19 @@ async function getoutward(param){
  
   if(param.bman) {
      rows = await db.query(
-      `SELECT * FROM sales where businessmen = '${param.bman}'`
+      `SELECT * FROM sales where businessmen = '${param.bman}' and billno = 0`
     );
-  } else if(param.fromdate && param.todate){
+    
+  } else if(param.customername) {
+    rows = await db.query(
+     `SELECT *, sum(amount) as totalamount FROM sales where businessmen = '${param.customername}' and billno != 0 group by billno`
+   );
+  } else if(param.cbillno) {
+    rows = await db.query(
+     `SELECT * FROM sales where billno = ${param.cbillno}`
+   );
+  
+ } else if(param.fromdate && param.todate){
     rows = await db.query(
       `SELECT *, sum(amount) as totalamount FROM sales where date between '${helper.convertDate(param.fromdate)}' and '${helper.convertDate(param.todate)}' and billno = 0 group by businessmen`
     );

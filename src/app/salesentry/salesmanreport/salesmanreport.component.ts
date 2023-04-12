@@ -51,7 +51,7 @@ export class SalesmanreportComponent implements OnInit {
 
     
       this._salesService.salesUpdate(receipt).subscribe(data => {
-        alert("Receipt added successfully..");
+        alert("Sakku cooley added successfully..");
         this.router.navigate(['salesreport']);
         
       })

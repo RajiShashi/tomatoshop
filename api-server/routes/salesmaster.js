@@ -11,6 +11,10 @@ router.post('/', async function(req, res, next) {
             res.json(await salesmaster.salesUpdate(req.body));
         } else if(req.query.receipt=='update') {
             res.json(await salesmaster.receiptUpdate(req.body));
+        } else if(req.query.type=='saveprint') {
+            res.json(await salesmaster.savePrint(req.body));
+        } else if(req.query.type=='savesalesprint') {
+            res.json(await salesmaster.savesalesPrint(req.body));    
         } else {
             res.json(await salesmaster.createsalesmaster(req.body));
         }

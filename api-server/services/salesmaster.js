@@ -368,9 +368,9 @@ async function salesUpdate(request) {
   console.log(salesrows[0]);
   const salesbillno = Number(salesrows[0].billno)+1;
   console.log(salesbillno);
-  console.log( `update sales set billno='${salesbillno}' where businessmen = '${request.customername}' and billno='0'`);
+  console.log( `update sales set billno='${salesbillno}', cooly = '${request.cooley}'  where businessmen = '${request.customername}' and billno='0'`);
   const salesrowsupdate = await db.query(
-    `update sales set billno='${salesbillno}' where businessmen = '${request.customername}' and billno='0'`
+    `update sales set billno='${salesbillno}', cooly = '${request.cooley}' where businessmen = '${request.customername}' and billno='0'`
   );
   
   const result = await db.query(
@@ -385,7 +385,7 @@ async function salesUpdate(request) {
     billbook,
     salesman,
     amount,
-    cooley
+    cooly
    
     ) 
   VALUES 
@@ -410,10 +410,51 @@ async function salesUpdate(request) {
   }
 }
 
+async function savePrint(request) {
+  if (request['id']) {
+    // update data
+    const salesid = request['id'];
+    const result = await db.query(
+      `Update purchase set
+        noofprint = '${request['print']}' 
+        where refno = ${salesid}
+      `
+    );
+
+    let message = "salesmaster error";
+
+    if (result.affectedRows) {
+      message = 'Salesmaster created successfully';
+    }
+  }
+}
+
+async function savesalesPrint(request) {
+  if (request['id']) {
+    // update data
+    const salesid = request['id'];
+    const result = await db.query(
+      `Update sales set
+        noofprint = '${request['print']}' 
+        where billno = ${salesid}
+      `
+    );
+
+    let message = "salesmaster error";
+
+    if (result.affectedRows) {
+      message = 'Salesmaster created successfully';
+    }
+  }
+}
+
+
 
 module.exports = {
   createsalesmaster,
   getSalesId,
   receiptUpdate,
-  salesUpdate
+  salesUpdate,
+  savePrint,
+  savesalesPrint
 }

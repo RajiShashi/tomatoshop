@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <h3>Customer Report</h3>
+    <form class="row row-cols-sm-auto">
+        <div class="col-3">
+            <div class="input-group">
+              <select #businessMan  (change)="selectBusinessman(businessMan.value)" >
+                <option value="">Select BusinessMan</option>
+                <option *ngFor="let business of businessManType" [value]="business.pname">
+                    {{business.pname }}
+                </option>
+            </select>
+            </div>
+
+        </div>
+       
+        <div class="col-3">
+            <div class="input-group">
+               
+            </div>
+        </div>
+
+    </form>
+  <br/>
+<table datatable [dtOptions]="dtOptions" class="row-border hover" >
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Bill no</th>
+        <th>Date</th>
+        <th>Business Man</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr *ngFor="let data of salesData; index as i;" [ngClass]="{'white-print': data.noofprint == 0, 'grey-print': data.noofprint == 1, 'red-print': (data.noofprint > 1 )}">
+        <td>{{i+1}}</td>
+        <td><a  routerLink="/customerbillreport/{{data.billno}}">{{data.billno}}</a></td>
+        <td>{{data.date | date:'dd-MM-yyyy'}}</td>
+        <td>{{data.businessmen}}</td>
+        <td>{{data.totalamount}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  
+  
+  
+</div>  
+  

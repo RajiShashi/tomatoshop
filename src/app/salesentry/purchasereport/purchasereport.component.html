@@ -32,20 +32,21 @@
     <thead>
         <tr>
             <th scope="col">S.No</th>
-            <th scope="col">Name</th>
             <th scope="col">Billno</th>
+            <th scope="col">Name</th>
             <th scope="col">Type</th>
             <th scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let inword of inwordDatas; index as i">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ inword.name }}</td>
+        <tr *ngFor="let inword of inwordDatas; index as i" [ngClass]="{'white-print': inword.noofprint == 0, 'grey-print': inword.noofprint == 1, 'red-print': (inword.noofprint > 1 )}">
+            <td scope="row" >{{ i + 1 }}</td>
             <td>{{ inword.billno }}</td>
+            <td >{{ inword.name}}</td>
+            
             <td>{{ inword.type }}</td>
             <td>
-                <a [routerLink]="['/sales', inword.id ]">Edit</a>
+                <a [routerLink]="['/sales', inword.id ]">View</a>
             </td>
         </tr>
     </tbody>

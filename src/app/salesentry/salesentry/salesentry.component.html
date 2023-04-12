@@ -2,6 +2,7 @@
 <br>
 <div class="container">
     <form [formGroup]="salesForm">
+    <div class="print-element">    
         <div class="row">
             <div class="col col-3">
                 <label for="billno">Billno</label><br />
@@ -78,11 +79,10 @@
             </div>
 
             <div class="col">
-                <button type="button" [disabled]="!inVegitable.valid" (click)="addInProductsArray()"
-                    class="btn btn-primary">Add
+                <button type="button" (click)="addInProductsArray()"
+                    class="btn btn-primary" [disabled]="viewprint">Add
                 </button>
-                <!-- <button [disabled]="inVegitable.invalid" (click)="addInProductsArray()" class="btn btn-primary">Add
-                        Products</button> -->
+                
             </div>
 
         </div>
@@ -116,7 +116,8 @@
                             <input type="number" formControlName="amount" placeholder="Amount" disabled>
                         </div>
                         <div class="col">
-                            <button type="button" (click)="removeInProducts(i)" class="btn btn-danger"> Remove</button>
+                            <button type="button" (click)="removeInProducts(i)" class="btn btn-danger" [disabled]="viewprint"> Remove</button>&nbsp;&nbsp;
+                            <button type="button" (click)="editInProduct(i)" class="btn btn-primary" [disabled]="viewprint" >Edit</button> 
                         </div>
                     </div>
                 </ng-container>
@@ -156,6 +157,7 @@
                 <label for="credit">Credit:</label><br />
                 <input type="number" formControlName="credit">
             </div>
+        </div>
         </div>
         <br>
         <br>
@@ -215,8 +217,8 @@
                 <input type="number" #outAmount placeholder="Amount" disabled formControlName="outAmount">
             </div>
             <div class="col">
-                <button [disabled]="!outVegitable.valid" (click)="addOutProductsArray()" class="btn btn-primary"
-                    type="button">Add
+                <button [disabled]="!outVegitable.valid || viewprint" (click)="addOutProductsArray()" class="btn btn-primary"
+                    type="button" >Add
                 </button>
             </div>
 
@@ -245,7 +247,7 @@
                     <input type="number" formControlName="outAmount" disabled>
                 </div>
                 <div class="col">
-                    <button (click)="removeOutProducts(i)" class="btn btn-danger"> Remove</button>
+                    <button (click)="removeOutProducts(i)" class="btn btn-danger" [disabled]="viewprint"> Remove</button>
                 </div>
             </div>
         </ng-container>
@@ -253,8 +255,10 @@
 
         <br>
         <br>
-        <button class="btn btn-primary" type="button" (click)="onClickSubmit()">Submit</button>&nbsp;&nbsp;
+        <button class="btn btn-primary" type="button" (click)="onClickSubmit()" [disabled]="viewprint">Submit</button>&nbsp;&nbsp;
+        <button class="btn btn-primary" type="button"  (click)="savePrint()" *ngIf="editEntry" >Print</button>&nbsp;&nbsp;
         <button class="btn btn-danger" type="button"  routerLink="/purchasereport">Return</button>
+        
     </form>
 </div>
 
