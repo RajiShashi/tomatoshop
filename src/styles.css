@@ -1,1 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+.no-record {
+    text-align: center;
+    font-weight: 600;
+    font-size: 24px;
+    border: 2px solid;
+}

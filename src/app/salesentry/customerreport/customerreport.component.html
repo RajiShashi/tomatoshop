@@ -21,7 +21,8 @@
 
     </form>
   <br/>
-<table datatable [dtOptions]="dtOptions" class="row-border hover" >
+  <div *ngIf="!salesData.length" class="no-record"> No Records Found.</div>  
+<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="salesData.length">
     <thead>
       <tr>
         <th>S.No</th>

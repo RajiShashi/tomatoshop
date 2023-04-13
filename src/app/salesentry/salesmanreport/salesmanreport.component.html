@@ -1,6 +1,7 @@
 <div class="container-fluid">
-    <h3>Salesman Report</h3>
+    <h3>Salesman Bill Update</h3>
 <br/>
+<div *ngIf="!salesData.length" class="no-record"> No Records Found.</div> 
 <table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="salesData.length">
     <thead>
       <tr>
@@ -69,7 +70,8 @@
             <div class="col-6">
               <button  type="button" class="btn btn-primary" (click)="saveBill(f)"
               >Save</button>&nbsp;&nbsp;
-          
+              <button  type="button" class="btn btn-primary" (click)="saveBill(f, 'print')"
+              >Save & Print</button>&nbsp;&nbsp;
             </div>
           </div>
         </form>

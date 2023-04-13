@@ -367,10 +367,12 @@ async function salesUpdate(request) {
   );
   console.log(salesrows[0]);
   const salesbillno = Number(salesrows[0].billno)+1;
-  console.log(salesbillno);
-  console.log( `update sales set billno='${salesbillno}', cooly = '${request.cooley}'  where businessmen = '${request.customername}' and billno='0'`);
+  let printupdate = '';
+  if(request['noofprint']) {
+    printupdate = ', noofprint = 1 ';
+  }  
   const salesrowsupdate = await db.query(
-    `update sales set billno='${salesbillno}', cooly = '${request.cooley}' where businessmen = '${request.customername}' and billno='0'`
+    `update sales set billno='${salesbillno}', cooly = '${request.cooley}' ${printupdate} where businessmen = '${request.customername}' and billno='0'`
   );
   
   const result = await db.query(

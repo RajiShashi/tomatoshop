@@ -28,6 +28,7 @@
   
       </form>
     <br/>
+    <div *ngIf="!inwordDatas.length" class="no-record"> No Records Found.</div>  
 <table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="inwordDatas && inwordDatas.length">
     <thead>
         <tr>

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <h3>Sales Report</h3>
+  <h3>Sales Bill Update</h3>
     <form class="row row-cols-sm-auto">
         <div class="col-3">
             <div class="input-group">
@@ -27,7 +27,8 @@
 
     </form>
   <br/>
-<table datatable [dtOptions]="dtOptions" class="row-border hover" >
+  <div *ngIf="!salesData.length" class="no-record"> No Records Found.</div> 
+<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="salesData.length">
     <thead>
       <tr>
         <th>S.No</th>

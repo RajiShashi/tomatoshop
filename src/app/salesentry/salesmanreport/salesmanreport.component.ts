@@ -35,17 +35,29 @@ export class SalesmanreportComponent implements OnInit {
      })
   }
 
-  saveBill(f: NgForm) {
+  saveBill(f: NgForm, type='') {
     const today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     let yyyy = today.getFullYear().toString();
     let date = dd + '-' + mm + '-' + yyyy.substr(-2);
-    let receipt = {
-      date: date,
-      amount: this.salesTotal,
-      customername: this.queryparam,
-      cooley:this.cooley
+    let receipt = {};
+    
+    if(type == 'print') {
+      receipt = {
+        date: date,
+        amount: this.salesTotal,
+        customername: this.queryparam,
+        cooley:this.cooley,
+        noofprint:1
+      }
+    } else {
+      receipt = {
+        date: date,
+        amount: this.salesTotal,
+        customername: this.queryparam,
+        cooley:this.cooley
+      }
     }
     if(this.cooley && this.cooley != '') {
 
