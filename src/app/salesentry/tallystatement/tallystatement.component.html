@@ -25,7 +25,7 @@
        
         <h5>No records found</h5>
     </div>
-    <table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="tallyData.purchase.length">
+    <table datatable  class="row-border hover" *ngIf="tallyData.purchase.length">
         <thead>
             <tr>
                 <th colspan="3">&nbsp;</th>
@@ -53,11 +53,11 @@
                 <td>{{data.pname}}</td>
                 <td>{{data.kgs}}</td>
                 <td>{{data.pack}}</td>
-                <td>{{data.amount}}</td>
+                <td>{{data.purchaseamount}}</td>
                 <td>{{tallyData.sales[i].kgs}}</td>
                 <td>{{tallyData.sales[i].pack}}</td>
                 <td
-                    [ngClass]="{'red': (data.amount > tallyData.sales[i].amount), 'green': (data.amount < tallyData.sales[i].amount)}">
+                    [ngClass]="{'red': (data.amount > tallyData.sales[i].amount), 'green': (data.purchaseamount < tallyData.sales[i].amount)}">
                     {{tallyData.sales[i].amount}}</td>
             </tr>
         </tbody>
@@ -65,16 +65,65 @@
             <tr>
                 <td colspan="9">&nbsp;</td>
             </tr>    
-            <tr>
-                <td colspan="9">&nbsp;</td>
-            </tr>    
+             
             <tr>
                 <td colspan="3"></td>
-                <td colspan="2">Total Purchase </td>
+                <td colspan="2"> </td>
+                <td colspan="1"></td>
+                <td colspan="2"><strong>Sakku Cooly</strong> </td>
+                <td colspan="1"><strong>{{sakkucooly}}</strong></td>
+            </tr>  
+            <tr>
+                <td colspan="9">&nbsp;</td>
+            </tr> 
+            <tr>
+                <td colspan="9">&nbsp;</td>
+            </tr> 
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="2"><strong>Total Purchase</strong> </td>
                 <td colspan="1"><strong>{{purchaseTotal}}</strong></td>
-                <td colspan="2">Total Sales </td>
+                <td colspan="2"><strong>Toal Sales</strong> </td>
                 <td colspan="1"><strong>{{salesTotal}}</strong></td>
             </tr>
         </thead>
     </table>
 </div>
+<div class="row">
+    <div class="col-6">
+        <div class="row">
+            <div class="col-6">
+                Commission
+            </div>
+            <div class="col-6">
+                {{purchase['commission']}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Sungam
+            </div>
+            <div class="col-6">
+                {{purchase['sungam']}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Cooly
+            </div>
+            <div class="col-6">
+                {{purchase['cooly']}}
+            </div>
+        </div>
+
+    </div>
+    <div class="col-6">
+      <div class="profit">{{salesTotal-purchaseTotal}}</div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        &nbsp;
+    </div>
+</div>        

@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <h3>Receipts</h3>
     <form #f="ngForm" >
-      <div class="row col-4 customer-form"> 
+      <div class="row col-6 customer-form"> 
         <div class="row">
           <div class="col-6">
             <label for="customername">Date</label>
@@ -15,12 +15,25 @@
           <label for="customername">CustomeName</label>
         </div>
         <div class="col-6">
-            <select #businessMan  (change)="selectBusinessman(businessMan.value)" >
-                <option value="">Select BusinessMan</option>
-                <option *ngFor="let business of businessManType" [value]="business.pname">
-                    {{business.pname }}
-                </option>
-            </select>
+          <ng-autocomplete 
+          [data]="businessManType"
+          [searchKeyword]="keyword"
+          placeholder="Select Customer"
+          (selected)='selectEvent($event)'
+          (inputChanged)='onChangeSearch($event)'
+          (inputFocused)='onFocused($event)'
+          [itemTemplate]="itemTemplate"
+    
+          [notFoundTemplate]="notFoundTemplate">                                 
+        </ng-autocomplete>
+        
+        <ng-template #itemTemplate let-item>
+        <a [innerHTML]="item.pname"></a>
+        </ng-template>
+        
+        <ng-template #notFoundTemplate let-notFound>
+        <div [innerHTML]="notFound"></div>
+        </ng-template>
         </div>
       </div>
   
@@ -86,5 +99,7 @@
     </form>
   
   </div>
-  
+  <div class="ng-autocomplete">
+    
+    </div>
   

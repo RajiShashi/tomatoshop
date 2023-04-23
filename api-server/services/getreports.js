@@ -40,11 +40,11 @@ async function getoutward(param){
   
  } else if(param.fromdate && param.todate){
     rows = await db.query(
-      `SELECT *, sum(amount) as totalamount FROM sales where date between '${helper.convertDate(param.fromdate)}' and '${helper.convertDate(param.todate)}' and billno = 0 group by businessmen`
+      `SELECT *, sum(amount) as totalamount FROM sales where date between '${helper.convertDate(param.fromdate)}' and '${helper.convertDate(param.todate)}' group by billno, businessmen order by billno`
     );
   } else if(param.businessname ){
     rows = await db.query(
-      `SELECT sum(amount) as totalamount FROM sales where businessmen = '${param.businessname}' group by businessmen`
+      `SELECT (sum(debit)-sum(credit)) as totalamount FROM masters where name = '${param.businessname}'`
     );
     return rows;
   } else {
@@ -65,10 +65,10 @@ async function getTallyData(param){
  
   if(param.date) {
     puchaserows = await db.query(
-      `SELECT id, date, pname, sum(kgs) as kgs, sum(pack) as pack, sum(amount) as amount FROM purchase where date = '${helper.convertDate(param.date)}'  GROUP by pname `
+      `SELECT *, sum(kgs) as kgs, sum(pack) as pack, sum(amount) as purchaseamount FROM purchase where date = '${helper.convertDate(param.date)}'  GROUP by pname `
     );
     salesrows = await db.query(
-      `SELECT id, date, pname, sum(kgs) as kgs, sum(pack) as pack, sum(amount) as amount FROM sales where date = '${helper.convertDate(param.date)}' GROUP by pname`
+      `SELECT id, date, pname, sum(kgs) as kgs, sum(pack) as pack, sum(amount) as amount, cooly FROM sales where date = '${helper.convertDate(param.date)}' GROUP by pname`
     );
   } 
   const purchasedata = helper.emptyOrRows(puchaserows);

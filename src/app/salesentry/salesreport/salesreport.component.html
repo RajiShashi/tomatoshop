@@ -33,16 +33,18 @@
       <tr>
         <th>S.No</th>
         <th>Date</th>
+        <th>Billno</th>
         <th>Business Man</th>
         <th>Amount</th>
       </tr>
     </thead>
     <tbody>
       
-      <tr *ngFor="let data of salesData; index as i;">
+      <tr *ngFor="let data of salesData; index as i;" [ngClass]="{'white-print': data.noofprint == 0, 'grey-print': data.noofprint == 1, 'red-print': (data.noofprint > 1 )}">
         <td>{{i+1}}</td>
         <td>{{data.date | date:'dd-MM-yyyy'}}</td>
-        <td><a  routerLink="/salesmanreport/{{data.businessmen}}">{{data.businessmen}}</a></td>
+        <td>{{data.billno }}</td>
+        <td><a  routerLink="/salesmanreport/{{data.businessmen}}" *ngIf="data.billno == 0">{{data.businessmen}}</a><a  routerLink="/customerbillreport/{{data.billno}}" *ngIf="data.billno > 0">{{data.businessmen}}</a></td>
         <td>{{data.totalamount}}</td>
       </tr>
     </tbody>

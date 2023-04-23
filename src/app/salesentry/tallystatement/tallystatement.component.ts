@@ -16,11 +16,18 @@ export class TallystatementComponent implements OnInit {
   salesTotal: any= 0;
   model: any;
   todayDate: any;
+  sakkucooly: any = 0;
+  purchase: any = {
+    commission:0,
+    cooly:0,
+    sungam:0
+  };
 
   constructor(private _salesService: SalesentryserviceService) { }
 
   
   ngOnInit(): void {
+   
     this.dtOptions = { };
     const today = new Date();
     this.model = new Date();
@@ -33,27 +40,42 @@ export class TallystatementComponent implements OnInit {
       this.tallyData = res;
       this.purchaseTotal = 0;
       this.salesTotal = 0;
+      this.sakkucooly = 0;
+      this.purchase['commission'] = 0;
+      this.purchase['cooly'] = 0;
+      this.purchase['sungam'] = 0;
       this.tallyData.purchase.forEach((val: any, key: any) => {
-        console.log(val);
-        this.purchaseTotal += val.amount;
-        this.salesTotal += this.tallyData.sales[key].amount;
+        this.sakkucooly += Number(this.tallyData.sales[key].cooly);
+        this.purchaseTotal += val.purchaseamount;
+        this.salesTotal += this.tallyData.sales[key].amount + Number(this.tallyData.sales[key].cooly);
+        this.purchase['commission'] += val.commission; 
+        this.purchase['cooly'] += val.cooly; 
+        this.purchase['sungam'] += val.sungam; 
       });
       //this.tallyData.purchase.push({'totalpurchase':this.purchaseTotal, 'totalsales':this.salesTotal});
     });
+   
   }
 
   showData() {
-    console.log(this.model);
+   
     let date = this.model.day.toString().padStart(2, '0')+'-'+this.model.month.toString().padStart(2, '0')+'-'+this.model.year.toString().substr(-2);
-    console.log(date);
+   
     this._salesService.getTallydata(date).subscribe(res => {
       this.tallyData = res;
       this.purchaseTotal = 0;
       this.salesTotal = 0;
+      this.sakkucooly = 0;
+      this.purchase['commission'] = 0;
+      this.purchase['cooly'] = 0;
+      this.purchase['sungam'] = 0;
       this.tallyData.purchase.forEach((val: any, key: any) => {
-        console.log(val);
-        this.purchaseTotal += val.amount;
-        this.salesTotal += this.tallyData.sales[key].amount;
+        this.sakkucooly += Number(this.tallyData.sales[key].cooly);
+        this.purchaseTotal += val.purchaseamount;
+        this.salesTotal += this.tallyData.sales[key].amount + Number(this.tallyData.sales[key].cooly);
+        this.purchase['commission'] += val.commission; 
+        this.purchase['cooly'] += val.cooly; 
+        this.purchase['sungam'] += val.sungam; 
       });
     });
   }

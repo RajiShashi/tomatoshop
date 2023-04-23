@@ -34,6 +34,7 @@
         <tr>
             <th scope="col">S.No</th>
             <th scope="col">Billno</th>
+            <th scope="col">Date</th>
             <th scope="col">Name</th>
             <th scope="col">Type</th>
             <th scope="col">Action</th>
@@ -43,6 +44,7 @@
         <tr *ngFor="let inword of inwordDatas; index as i" [ngClass]="{'white-print': inword.noofprint == 0, 'grey-print': inword.noofprint == 1, 'red-print': (inword.noofprint > 1 )}">
             <td scope="row" >{{ i + 1 }}</td>
             <td>{{ inword.billno }}</td>
+            <td>{{ inword.date | date:'dd-MM-YY' }}</td>
             <td >{{ inword.name}}</td>
             
             <td>{{ inword.type }}</td>

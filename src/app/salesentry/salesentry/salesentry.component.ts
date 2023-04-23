@@ -274,17 +274,19 @@ export class SalesentryComponent implements OnInit {
     else {
       const control = <FormArray>this.packForm.controls['inPackModalArray'];
       this.currentPackinfo = Number(this.pack.nativeElement.value);
-      if(control.length != this.currentPackinfo) {
-        for (let i = control.length - 1; i >= 0; i--) {
+      if(control.length > this.currentPackinfo) {
+        for (let i = control.length - 1; i >= this.currentPackinfo; i--) {
           control.removeAt(i)
         }
-        for (let i = 0; i < Number(this.currentPackinfo); i++) {
+        
+      } else {
+        for (let i = control.length; i < Number(this.currentPackinfo); i++) {
           const packGroup = this.fb.group({
             qty: ''
           });
           this.inPackModalArr.push(packGroup);
         }
-      } 
+      }
       this.modalOpen = true;
     }
   }
@@ -297,7 +299,7 @@ export class SalesentryComponent implements OnInit {
     for (let i = control.length - 1; i >= 0; i--) {
       control.removeAt(i)
     }
-
+    this.onBlurInRate();
   }
 
   saveModel() {
@@ -319,6 +321,7 @@ export class SalesentryComponent implements OnInit {
 
     
     this.modalOpen = false;
+    this.onBlurInRate();
 
   }
 

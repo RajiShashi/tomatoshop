@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { SalesentryserviceService } from '../salesentryservice.service';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @Component({
   selector: 'app-receipt',
@@ -24,6 +25,11 @@ export class ReceiptComponent implements OnInit {
   myGroup: any;
   businessManVal: any;
   
+  keyword = 'code';
+  data = [];
+  pname = 'pname';
+  name:any;
+
   constructor(private _salesService: SalesentryserviceService, @Inject(DOCUMENT) private _document: any ) {this.window = this._document.defaultView; }
 
   ngOnInit(): void {
@@ -40,6 +46,7 @@ export class ReceiptComponent implements OnInit {
       });
 
       this.farmerType = this.customers.filter(farmer => farmer.category == "FORMER");
+      console.log(this.farmerType);
       this.businessManType = this.customers.filter(business => business.category == "CUSTOMER");
     });
 
@@ -97,6 +104,25 @@ export class ReceiptComponent implements OnInit {
 
   updateDiscountVal() {
     this.balance = Number(this.previousBalance) - (Number(this.downpayment) + Number(this.discount));
+  }
+
+  
+
+
+  selectEvent(item: any) {
+    console.log(item);
+    this.selectBusinessman(item.pname);
+    this.name = item.pname;
+    // do something with selected item
+  }
+
+  onChangeSearch(val: string) {
+    // fetch remote data from here
+    // And reassign the 'data' which is binded to 'data' property.
+  }
+  
+  onFocused(e: any){
+    // do something when input is focused
   }
 
 }

@@ -281,7 +281,7 @@ async function getSalesId(id) {
   let condition = '';
   let data = '';
   if (id == 0) {
-    condition = 'ORDER BY billno DESC LIMIT 1';
+    condition = "where type='FORMER' ORDER BY billno DESC LIMIT 1";
     const rows = await db.query(
       `SELECT * FROM masters ${condition}`
     );
@@ -341,7 +341,7 @@ async function receiptUpdate(request) {
   VALUES 
   ('${helper.convertDate(request.date)}',
    '${request.customername}',
-   '${request.downpayment}', 
+   '${Number(request.downpayment)+request.discount}', 
    'RECEIPT',
    '${request.date}', 
    '1001',
